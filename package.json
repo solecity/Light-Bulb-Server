@@ -1,0 +1,24 @@
+{
+  "name": "light_bulb_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "loader.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solecity/Light-Bulb-Server.git"
+  },
+  "author": "mariana moreira / ines moreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solecity/Light-Bulb-Server/issues"
+  },
+  "homepage": "https://github.com/solecity/Light-Bulb-Server#readme"
+}
