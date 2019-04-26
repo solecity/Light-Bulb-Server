@@ -2,7 +2,6 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const tagSchema = new Schema({
-    id: Number,
     tag: String
 });
  

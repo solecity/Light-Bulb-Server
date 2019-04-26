@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
-    id: {
-        type: Number,
-        require: true
-    },
     name: {
         type: String,
         require: true
@@ -27,8 +23,8 @@ const userSchema = new Schema({
     },
     profilePic: String,
     units: [{
-        unitId: String,
-        courseId: Date
+        unitId: Number,
+        courseId: Number
     }],
     notifications: [{
         type: String,
@@ -42,7 +38,9 @@ const userSchema = new Schema({
         xp: Number,
         levelXP: Number,
         level: Number,
-        medals: [ id: Number ],
+        medals: [{
+            id: Number
+        }],
         reputation: Number
     }
 });

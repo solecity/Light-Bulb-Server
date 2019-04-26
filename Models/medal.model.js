@@ -2,7 +2,6 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const medalSchema = new Schema({
-    id: Number,
     label: String,
     type: String
 });

@@ -2,10 +2,6 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const questionSchema = new Schema({
-    id: {
-        type: Number,
-        require: true
-    }
     title: {
         type: String,
         require: true
@@ -16,26 +12,30 @@ const questionSchema = new Schema({
     },
     idUser: Number,
     idCourse: Number,
-    tags: [
+    tags: [{
         idTag: Number,
         require: true
-    ],
+    }],
     files: {
         type: String,
         url: String
-    }
+    },
     images: {
         type: String,
         url: String
-    }
+    },
     date: {
         type: Date,
         default: Date.now()
     },
     view: Number,
-    upvote: [ idUser: Number ],
-    downvote: [ idUser: Number ],
-    status: Boolean,
+    upvote: [{
+        idUser: Number
+    }],
+    downvote: [{
+        idUser: Number
+    }],
+    locked: Boolean,
     answers: [{
         id: Number,
         idUser: Number,
@@ -44,10 +44,16 @@ const questionSchema = new Schema({
             default: Date.now()
         },
         answer: String,
-        upvote: [ idUser: Number ],
-        downvote: [ idUser: Number ],
+        upvote: [{
+            idUser: Number
+        }],
+        downvote: [{
+            idUser: Number
+        }],
     }],
-    followers: [ idUser: Number ]
+    followers: [{
+        idUser: Number
+    }]
 });
  
 const Question = mongoose.model('Question', questionSchema);
