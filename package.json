@@ -4,7 +4,11 @@
   "description": "",
   "main": "loader.js",
   "dependencies": {
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "express.js": "^1.0.0",
+    "loader": "^2.1.1",
+    "loader.js": "^4.7.0",
+    "routes.js": "0.0.1"
   },
   "devDependencies": {},
   "scripts": {

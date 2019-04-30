@@ -6,11 +6,10 @@ const courseSchema = new Schema({
         type: String,
         require: true
     },
-    courseUnits: [{
-        _id: [mongoose.Schema.Types.ObjectId],
-        unit: String,
-        year: Number
-    }]
+    courseUnits: {
+        type: Array,
+        require: true
+    },
 });
  
 const Course = mongoose.model('Course', courseSchema);
