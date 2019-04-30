@@ -27,6 +27,7 @@ const userSchema = new Schema({
         courseId: Number
     }],
     notifications: [{
+        _id: [mongoose.Schema.Types.ObjectId],
         type: String,
         message: String,
         date: {
@@ -38,9 +39,7 @@ const userSchema = new Schema({
         xp: Number,
         levelXP: Number,
         level: Number,
-        medals: [{
-            id: Number
-        }],
+        medals: Array,
         reputation: Number
     }
 });

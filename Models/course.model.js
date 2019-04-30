@@ -2,9 +2,12 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
-    course: String,
+    course: {
+        type: String,
+        require: true
+    },
     courseUnits: [{
-        id: Number,
+        _id: [mongoose.Schema.Types.ObjectId],
         unit: String,
         year: Number
     }]

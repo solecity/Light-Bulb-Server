@@ -29,31 +29,21 @@ const questionSchema = new Schema({
         default: Date.now()
     },
     view: Number,
-    upvote: [{
-        idUser: Number
-    }],
-    downvote: [{
-        idUser: Number
-    }],
+    upvote: Array,
+    downvote: Array,
     locked: Boolean,
     answers: [{
-        id: Number,
+        _id: [mongoose.Schema.Types.ObjectId],
         idUser: Number,
         date: {
             type: Date,
             default: Date.now()
         },
         answer: String,
-        upvote: [{
-            idUser: Number
-        }],
-        downvote: [{
-            idUser: Number
-        }],
+        upvote: Array,
+        downvote: Array,
     }],
-    followers: [{
-        idUser: Number
-    }]
+    followers: Array
 });
  
 const Question = mongoose.model('Question', questionSchema);
