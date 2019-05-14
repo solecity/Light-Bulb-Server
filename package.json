@@ -2,12 +2,15 @@
   "name": "light_bulb_server",
   "version": "1.0.0",
   "description": "",
-  "main": "loader.js",
+  "main": "server.js",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
+    "express-validator": "^5.3.1",
     "express.js": "^1.0.0",
     "loader": "^2.1.1",
     "loader.js": "^4.7.0",
+    "mongoose": "^5.5.4",
     "routes.js": "0.0.1"
   },
   "devDependencies": {},
