@@ -1,3 +1,5 @@
+
+
 const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
@@ -21,6 +23,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now()
     },
+    type: {
+        type: String,
+        require: true
+    },
     profilePic: String,
     units: [{
         unitId: Number,
@@ -43,15 +49,15 @@ const userSchema = new Schema({
         reputation: Number
     }
 });
- 
-userSchema.pre("save", async function(next) {
+
+userSchema.pre("save", async function (next) {
     const salt = 10;
     const hash = await bcrypt.hash(this.password, salt);
     this.password = hash;
-     
+
     next();
 })
- 
+
 const User = mongoose.model('User', userSchema);
- 
+
 module.exports = User;

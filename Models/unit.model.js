@@ -9,6 +9,21 @@ const unitSchema = new Schema({
     year: {
         type: Number,
         require: true
+    },
+    description: String,
+    teacher: {
+        name: {
+            type: String,
+            required: true
+        },
+        profilePic: {
+            type: String,
+            required: true
+        },
+        level: {
+            type: String,
+            required: true
+        }
     }
 });
  

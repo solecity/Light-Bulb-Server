@@ -2,7 +2,10 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const tagSchema = new Schema({
-    tag: String
+    tag: {
+        type: String,
+        required: true
+    }
 });
  
 const Tag = mongoose.model('Tag', tagSchema);

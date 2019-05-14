@@ -10,20 +10,27 @@ const questionSchema = new Schema({
         type: String,
         require: true
     },
-    idUser: Number,
-    idCourse: Number,
-    tags: [{
-        idTag: Number,
+    user: {
+        name: {
+            type: String,
+            required: true
+        },
+        profilePic: {
+            type: String,
+            required: true
+        },
+        level: {
+            type: String,
+            required: true
+        }
+    },
+    course: String,
+    unit: String,
+    tags: {
+        type: Array,
         require: true
-    }],
-    files: {
-        type: String,
-        url: String
     },
-    images: {
-        type: String,
-        url: String
-    },
+    images: Array,
     date: {
         type: Date,
         default: Date.now()
@@ -34,7 +41,11 @@ const questionSchema = new Schema({
     locked: Boolean,
     answers: [{
         _id: [mongoose.Schema.Types.ObjectId],
-        idUser: Number,
+        user: {
+            name: String,
+            profilePic: String,
+            level: String
+        },
         date: {
             type: Date,
             default: Date.now()
