@@ -27,17 +27,17 @@ const questionSchema = new Schema({
     course: String,
     unit: String,
     tags: {
-        type: Array,
+        type: [String],
         require: true
     },
-    images: Array,
+    images: [String],
     date: {
         type: Date,
         default: Date.now()
     },
     view: Number,
-    upvote: Array,
-    downvote: Array,
+    upvote: [Number],
+    downvote: [Number],
     locked: Boolean,
     answers: [{
         _id: [mongoose.Schema.Types.ObjectId],
@@ -51,10 +51,10 @@ const questionSchema = new Schema({
             default: Date.now()
         },
         answer: String,
-        upvote: Array,
-        downvote: Array,
+        upvote: [Number],
+        downvote: [Number],
     }],
-    followers: Array
+    followers: [Number]
 });
  
 const Question = mongoose.model('Question', questionSchema);
