@@ -2,110 +2,76 @@
 
 const User = require("../Models/user.model.js");
 
+
 // GET ALL USERS
 async function getUsers(req, res) {
-    const error = "Cannot get users."
+    const error = "Cannot get users.";
 
-    //const query = User.find({});
-
-    try {
-        await User.find({}, function (err, user) {
-            console.log("aaa")
+    await User.find({}, function (err, user) {
+        if (err) {
+            return res.status(404).send({ error: error + err });
+        }
+        else {
             User.find({}).select('');
             return res.send(user);
-        });
-    }
-    catch (err) {
-        return res.status(404).send({ error: error + err });
-    }
-    /*
-        query.select('');
-    
-        // execute query
-        query.exec(function (err, user) {
-            if (err) {
-                console.log(err);
-                res.send(err);
-            }
-            else {
-                console.log(user);
-                res.send(user);
-            }
-        });*/
+        }
+    });
 };
 
 // GET USER BY ID
 async function getUserByID(req, res) {
     const _id = req.params.id;
-    const query = User.findOne({ _id });
 
-    // selecting the `name` and `email` fields
-    query.select('name email type');
-
-    // execute query
-    query.exec(function (err, user) {
+    await User.findOne({ _id }, function (err, user) {
         if (err) {
-            console.log(err);
-            res.send(err);
+            return res.status(404).send({ error: `Cannot find user id '${_id}'` });
         }
         else {
-            console.log(user);
-            res.send(user);
+            User.findOne({ _id }).select('');
+            return res.send(user);
         }
     });
 };
 
 // ADD NEW USER
 async function addUser(req, res) {
+    let newUser = new User(req.body);
     const error = "Cannot add user."
 
-    let newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        type: "student",
-        profilePic: "http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
-        units: [],
-        notifications: [],
-        gameElements: {
-            xp: 0,
-            levelXP: 0,
-            level: 1,
-            medals: [1],
-            reputation: 0
+    newUser.save(function (err, user) {
+        if (err) {
+            return res.status(404).send({ error: error + err });
+        }
+        else {
+            return res.send(user)
         }
     });
-
-    try {
-        newUser.save(function (user) {
-            return res.send(user)
-        });
-    }
-    catch (err) {
-        return res.status(404).send({ error: error + err });
-    }
 };
 
-// REMOVE USER
+// REMOVE USER BY ID
 async function removeUserByID(req, res) {
     const _id = req.params.id;
     const error = "Cannot remove user.";
-
-    try {
-        if (await User.findOne({ _id })) {
-            await User.findByIdAndDelete(_id);
-            return res.send();
+/*
+    await User.findOne({ _id }, function (err, user) {
+        if (err) {
+            return res.status(404).send({ error: error + err });
         }
-        else {
-            return res.status(404).send({ error: error + `Cannot find user id '${_id}'` });
-        }
-    }
-    catch (err) {
-        return res.status(404).send({ error: error + err });
-    }
+        else {*/
+            User.findByIdAndDelete(_id, function (err, user) {
+                if (err) {
+                    return res.status(404).send({ error: error + ` Cannot find user with id '${_id}'` });
+                }
+                else {
+                    return res.send(user);
+                }
+            });
+        //}
+    //});
 };
 
-// export all functions
+
+// EXPORT ALL FUNCTIONS
 module.exports = {
     getUsers,
     getUserByID,

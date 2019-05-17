@@ -7,20 +7,14 @@ const courseSchema = new Schema({
         type: String,
         require: true
     },
-    units: [{
-        unit: {
-            type: String,
-            require: true
-        },
-        year: {
-            type: Number,
-            require: true
-        },
-        teacher: {
-            type: String,
-            required: true
-        }
-    }]
+    category: {
+        type: String,
+        required: true
+    },
+    director: {
+        type: String,
+        required: true
+    }
 });
 
 const Course = mongoose.model('Course', courseSchema);

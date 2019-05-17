@@ -24,6 +24,10 @@ const unitSchema = new Schema({
             type: String,
             required: true
         }
+    },
+    courses: {
+        type: Array,
+        require: true
     }
 });
  

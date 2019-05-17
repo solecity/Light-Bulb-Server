@@ -25,9 +25,13 @@ const userSchema = new Schema({
     },
     type: {
         type: String,
-        require: true
+        require: true,
+        default: "student"
     },
-    profilePic: String,
+    profilePic: {
+        type: String,
+        default: "http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+    },
     units: [{
         unitId: Number,
         courseId: Number
@@ -39,14 +43,29 @@ const userSchema = new Schema({
         date: {
             type: Date,
             default: Date.now()
-        },
+        }
     }],
     gameElements: {
-        xp: Number,
-        levelXP: Number,
-        level: Number,
-        medals: Array,
-        reputation: Number
+        xp: {
+            type: Number,
+            default: 0
+        },
+        levelXP: {
+            type: Number,
+            default: 10
+        },
+        level: {
+            type: Number,
+            default: 1
+        },
+        medals: {
+            type: Array,
+            default: [1]
+        },
+        reputation: {
+            type: Number,
+            default: 0
+        },
     }
 });
 
