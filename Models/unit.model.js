@@ -4,15 +4,23 @@ const Schema = mongoose.Schema;
 const unitSchema = new Schema({
     unit: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     year: {
         type: Number,
         require: true
     },
-    description: String,
+    description: {
+        type: String,
+        default: ""
+    },
     teacher: {
         name: {
+            type: String,
+            required: true
+        },
+        email: {
             type: String,
             required: true
         },
@@ -26,11 +34,11 @@ const unitSchema = new Schema({
         }
     },
     courses: {
-        type: Array,
-        require: true
+        type: [String],        
+        required: true
     }
 });
- 
+
 const Unit = mongoose.model('Unit', unitSchema);
- 
+
 module.exports = Unit;

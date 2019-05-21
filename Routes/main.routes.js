@@ -5,6 +5,8 @@ const express = require("express");
 
 const userController = require("../Controllers/user.controller.js");
 const courseController = require("../Controllers/course.controller.js");
+const unitController = require("../Controllers/unit.controller.js");
+const questionController = require("../Controllers/question.controller.js");
 const tagController = require("../Controllers/tag.controller.js");
 const levelController = require("../Controllers/level.controller.js");
 const medalController = require("../Controllers/medal.controller.js");
@@ -30,11 +32,19 @@ router
 
 
 /* unit */
-/*router
+router
     .get("/unit", unitController.getUnits)
     .get("/unit/:id", unitController.getUnitByID)
     .post("/unit", unitController.addUnit)
-    .delete("/unit/:id", unitController.removeUnitByID);*/
+    .delete("/unit/:id", unitController.removeUnitByID);
+
+
+/* question */
+router
+    .get("/question", questionController.getQuestions)
+    .get("/question/:id", questionController.getQuestionByID)
+    .post("/question", questionController.addQuestion)
+    .delete("/question/:id", questionController.removeQuestionByID);
 
 
 /* tag */
@@ -53,12 +63,12 @@ router
     .delete("/level/:id", levelController.removeLevelByID);
 
 
-    /* medal */
-    router
-        .get("/medal", medalController.getMedals)
-        .get("/medal/:id", medalController.getMedalByID)
-        .post("/medal", medalController.addMedal)
-        .delete("/medal/:id", medalController.removeMedalByID);
+/* medal */
+router
+    .get("/medal", medalController.getMedals)
+    .get("/medal/:id", medalController.getMedalByID)
+    .post("/medal", medalController.addMedal)
+    .delete("/medal/:id", medalController.removeMedalByID);
 
 
 module.exports = router;

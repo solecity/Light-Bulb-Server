@@ -18,13 +18,16 @@ async function getLevels(req, res) {
     });
 };
 
+
 // GET LEVEL BY ID
 async function getLevelByID(req, res) {
     const _id = req.params.id;
 
     await Level.findOne({ _id }, function (err, level) {
+        const error =`Cannot find level id '${_id}'.`;
+
         if (err) {
-            return res.status(404).send({ error: `Cannot find level id '${_id}'` });
+            return res.status(404).send({ error: error + err});
         }
         else {
             Level.findOne({ _id }).select('');
@@ -32,6 +35,7 @@ async function getLevelByID(req, res) {
         }
     });
 };
+
 
 // ADD NEW LEVEL
 async function addLevel(req, res) {
@@ -48,14 +52,16 @@ async function addLevel(req, res) {
     });
 };
 
+
 // REMOVE LEVEL BY ID
 async function removeLevelByID(req, res) {
     const _id = req.params.id;
-    const error = "Cannot remove Level.";
+    const error = `Cannot remove level. Cannot find level with id '${_id}'.`;
 
     Level.findByIdAndDelete(_id, function (err, level) {
+
         if (err) {
-            return res.status(404).send({ error: error + ` Cannot find Level with id '${_id}'` });
+            return res.status(404).send({ error: error +  err });
         }
         else {
             return res.send(level);

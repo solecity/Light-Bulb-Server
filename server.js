@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+const port = process.env.PORT || 8080;
 
 const mainRoutes = require("./Routes/main.routes.js");
 
@@ -12,6 +13,6 @@ app.use(bodyParser.json());
 
 app.use(mainRoutes);
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log(`Server: `);
 }); 

@@ -18,13 +18,16 @@ async function getCourses(req, res) {
     });
 };
 
+
 // GET COURSE BY ID
 async function getCourseByID(req, res) {
     const _id = req.params.id;
 
     await Course.findOne({ _id }, function (err, course) {
+        const error =`Cannot find course id '${_id}'.`;
+
         if (err) {
-            return res.status(404).send({ error: `Cannot find course id '${_id}'` });
+            return res.status(404).send({ error: error + err});
         }
         else {
             Course.findOne({ _id }).select('');
@@ -32,6 +35,7 @@ async function getCourseByID(req, res) {
         }
     });
 };
+
 
 // ADD NEW COURSE
 async function addCourse(req, res) {
@@ -48,14 +52,16 @@ async function addCourse(req, res) {
     });
 };
 
+
 // REMOVE COURSE BY ID
 async function removeCourseByID(req, res) {
     const _id = req.params.id;
-    const error = "Cannot remove course.";
+    const error = `Cannot remove course. Cannot find course with id '${_id}'.`;
     
     Course.findByIdAndDelete(_id, function (err, course) {
+
         if (err) {
-            return res.status(404).send({ error: error + ` Cannot find course with id '${_id}'` });
+            return res.status(404).send({ error: error + err });
         }
         else {
             return res.send(course);

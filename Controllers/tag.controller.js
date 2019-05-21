@@ -18,13 +18,16 @@ async function getTags(req, res) {
     });
 };
 
+
 // GET TAG BY ID
 async function getTagByID(req, res) {
     const _id = req.params.id;
 
     await Tag.findOne({ _id }, function (err, tag) {
+        const error =`Cannot find tag id '${_id}'.`;
+
         if (err) {
-            return res.status(404).send({ error: `Cannot find tag id '${_id}'` });
+            return res.status(404).send({ error: error + err});
         }
         else {
             Tag.findOne({ _id }).select('');
@@ -32,6 +35,7 @@ async function getTagByID(req, res) {
         }
     });
 };
+
 
 // ADD NEW TAG
 async function addTag(req, res) {
@@ -48,14 +52,16 @@ async function addTag(req, res) {
     });
 };
 
+
 // REMOVE TAG BY ID
 async function removeTagByID(req, res) {
     const _id = req.params.id;
-    const error = "Cannot remove tag.";
+    const error = `Cannot remove tag. Cannot find tag with id '${_id}'.`;
 
     Tag.findByIdAndDelete(_id, function (err, tag) {
+
         if (err) {
-            return res.status(404).send({ error: error + ` Cannot find tag with id '${_id}'` });
+            return res.status(404).send({ error: error +  err });
         }
         else {
             return res.send(tag);

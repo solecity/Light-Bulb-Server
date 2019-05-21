@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const medalSchema = new Schema({
     label: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     type: {
         type: String,

@@ -36,8 +36,14 @@ const questionSchema = new Schema({
         default: Date.now()
     },
     view: Number,
-    upvote: [Number],
-    downvote: [Number],
+    upvote: {
+        type: [ObjectId],
+        default: []
+    },
+    downvote: {
+        type: [ObjectId],
+        default: []
+    },
     locked: Boolean,
     answers: [{
         _id: [mongoose.Schema.Types.ObjectId],
@@ -51,12 +57,21 @@ const questionSchema = new Schema({
             default: Date.now()
         },
         answer: String,
-        upvote: [Number],
-        downvote: [Number],
+        upvote: {
+            type: [Number],
+            default: 0
+        },
+        downvote: {
+            type: [Number],
+            default: 0
+        },
     }],
-    followers: [Number]
+    followers: {
+        type: [ObjectId],
+        default: []
+    }
 });
- 
+
 const Question = mongoose.model('Question', questionSchema);
 
 module.exports = Question;

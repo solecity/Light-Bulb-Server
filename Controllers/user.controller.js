@@ -18,13 +18,16 @@ async function getUsers(req, res) {
     });
 };
 
+
 // GET USER BY ID
 async function getUserByID(req, res) {
     const _id = req.params.id;
 
     await User.findOne({ _id }, function (err, user) {
+        const error =`Cannot find user id '${_id}'.`;
+
         if (err) {
-            return res.status(404).send({ error: `Cannot find user id '${_id}'` });
+            return res.status(404).send({ error: error + err});
         }
         else {
             User.findOne({ _id }).select('');
@@ -32,6 +35,7 @@ async function getUserByID(req, res) {
         }
     });
 };
+
 
 // ADD NEW USER
 async function addUser(req, res) {
@@ -48,10 +52,11 @@ async function addUser(req, res) {
     });
 };
 
+
 // REMOVE USER BY ID
 async function removeUserByID(req, res) {
     const _id = req.params.id;
-    const error = "Cannot remove user.";
+    const error = `Cannot remove user. Cannot find user with id '${_id}'.`;
 /*
     await User.findOne({ _id }, function (err, user) {
         if (err) {
@@ -59,8 +64,9 @@ async function removeUserByID(req, res) {
         }
         else {*/
             User.findByIdAndDelete(_id, function (err, user) {
+
                 if (err) {
-                    return res.status(404).send({ error: error + ` Cannot find user with id '${_id}'` });
+                    return res.status(404).send({ error: error +  err });
                 }
                 else {
                     return res.send(user);

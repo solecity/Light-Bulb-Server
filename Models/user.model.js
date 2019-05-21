@@ -33,8 +33,8 @@ const userSchema = new Schema({
         default: "http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     },
     units: [{
-        unitId: Number,
-        courseId: Number
+        unitId: ObjectId,
+        courseId: ObjectId
     }],
     notifications: [{
         _id: [mongoose.Schema.Types.ObjectId],
@@ -50,22 +50,22 @@ const userSchema = new Schema({
             type: Number,
             default: 0
         },
-        levelXP: {
+        maxXP: {
             type: Number,
             default: 10
         },
         level: {
-            type: Number,
-            default: 1
+            type: String,
+            default: "Principiante"
         },
         medals: {
-            type: Array,
-            default: [1]
+            type: [String],
+            default: ["Bem-vindo"]
         },
         reputation: {
             type: Number,
             default: 0
-        },
+        }
     }
 });
 

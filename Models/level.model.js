@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const levelSchema = new Schema({
     label: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     maxXP: {
         type: Number,

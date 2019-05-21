@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema({
     course: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     category: {
         type: String,
