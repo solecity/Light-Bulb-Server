@@ -1,6 +1,9 @@
 {
   "name": "light_bulb_server",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.14.1"
+  },
   "description": "",
   "main": "server.js",
   "dependencies": {
