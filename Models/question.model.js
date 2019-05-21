@@ -37,11 +37,11 @@ const questionSchema = new Schema({
     },
     view: Number,
     upvote: {
-        type: [ObjectId],
+        type: [mongoose.Schema.Types.ObjectId],
         default: []
     },
     downvote: {
-        type: [ObjectId],
+        type: [mongoose.Schema.Types.ObjectId],
         default: []
     },
     locked: Boolean,
@@ -67,7 +67,7 @@ const questionSchema = new Schema({
         },
     }],
     followers: {
-        type: [ObjectId],
+        type: [mongoose.Schema.Types.ObjectId],
         default: []
     }
 });
