@@ -13,7 +13,7 @@ async function getUnits(req, res) {
         }
         else {
             Unit.find({}).select('');
-            return res.send(unit);
+            return res.status(200).send(unit);
         }
     });
 };
@@ -24,14 +24,14 @@ async function getUnitByID(req, res) {
     const _id = req.params.id;
 
     await Unit.findOne({ _id }, function (err, unit) {
-        const error =`Cannot find unit id '${_id}'.`;
-        
+        const error = `Cannot find unit id '${_id}'.`;
+
         if (err) {
-            return res.status(404).send({ error: error + err});
+            return res.status(404).send({ error: error + err });
         }
         else {
             Unit.findOne({ _id }).select('');
-            return res.send(unit);
+            return res.status(200).send(unit);
         }
     });
 };
@@ -47,7 +47,7 @@ async function addUnit(req, res) {
             return res.status(404).send({ error: error + err });
         }
         else {
-            return res.send(unit);
+            return res.status(200).send(unit);
         }
     });
 };
@@ -57,16 +57,40 @@ async function addUnit(req, res) {
 async function removeUnitByID(req, res) {
     const _id = req.params.id;
     const error = `Cannot remove unit. Cannot find unit with id '${_id}'.`;
-    
-    Unit.findByIdAndDelete(_id, function (err, unit) {
 
-        if (err) {
-            return res.status(404).send({ error: error +  err });
-        }
-        else {
-            return res.send(unit);
-        }
-    });
+    if (await Unit.findOne({ _id })) {
+        await Unit.findByIdAndDelete(_id, function (err, unit) {
+            if (err) {
+                return res.status(404).send({ error: error + err });
+            }
+            else {
+                return res.status(200).send(unit);
+            }
+        });
+    }
+    else {
+        return res.status(404).send({ error: error + err });
+    }
+};
+
+// EDIT UNIT BY ID
+async function editUnitByID(req, res) {
+    const _id = req.params.id;
+    const error = `Cannot remove unit. Cannot find unit with id '${_id}'.`;
+
+    if (await Unit.findOne({ _id })) {
+        await Unit.findByIdAndUpdate(_id, req.body, function (err, unit) {
+            if (err) {
+                return res.status(404).send({ error: error + err });
+            }
+            else {
+                return res.status(200).send(unit);
+            }
+        });
+    }
+    else {
+        return res.status(404).send({ error: error + err });
+    }
 };
 
 
@@ -75,5 +99,6 @@ module.exports = {
     getUnits,
     getUnitByID,
     addUnit,
-    removeUnitByID
+    removeUnitByID,
+    editUnitByID
 };

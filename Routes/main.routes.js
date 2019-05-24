@@ -1,6 +1,6 @@
 
 
-const http = require("http");
+//const http = require("http");
 const express = require("express");
 
 const userController = require("../Controllers/user.controller.js");
@@ -19,7 +19,7 @@ router
     .get("/user/:id", userController.getUserByID)
     .post("/user", userController.addUser)
     .delete("/user/:id", userController.removeUserByID);
-//.put("/user");
+//.put("/user/:id", userController.editUserByID);
 
 
 /* course */
@@ -27,8 +27,8 @@ router
     .get("/course", courseController.getCourses)
     .get("/course/:id", courseController.getCourseByID)
     .post("/course", courseController.addCourse)
-    .delete("/course/:id", courseController.removeCourseByID);
-//.put("/course");
+    .delete("/course/:id", courseController.removeCourseByID)
+    .put("/course/:id", courseController.editCourseByID);
 
 
 /* unit */
@@ -36,7 +36,8 @@ router
     .get("/unit", unitController.getUnits)
     .get("/unit/:id", unitController.getUnitByID)
     .post("/unit", unitController.addUnit)
-    .delete("/unit/:id", unitController.removeUnitByID);
+    .delete("/unit/:id", unitController.removeUnitByID)
+    .put("/unit/:id", unitController.editUnitByID);
 
 
 /* question */
@@ -45,6 +46,7 @@ router
     .get("/question/:id", questionController.getQuestionByID)
     .post("/question", questionController.addQuestion)
     .delete("/question/:id", questionController.removeQuestionByID);
+//.put("/question/:id", questionController.editQuestionByID);
 
 
 /* tag */
@@ -60,7 +62,8 @@ router
     .get("/level", levelController.getLevels)
     .get("/level/:id", levelController.getLevelByID)
     .post("/level", levelController.addLevel)
-    .delete("/level/:id", levelController.removeLevelByID);
+    .delete("/level/:id", levelController.removeLevelByID)
+    .put("/level/:id", levelController.editLevelByID);
 
 
 /* medal */
@@ -69,6 +72,7 @@ router
     .get("/medal/:id", medalController.getMedalByID)
     .post("/medal", medalController.addMedal)
     .delete("/medal/:id", medalController.removeMedalByID);
+    //.put("/medal/:id", medalController.editMedalByID);
 
 
 module.exports = router;
