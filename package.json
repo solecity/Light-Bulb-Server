@@ -2,13 +2,12 @@
   "name": "light_bulb_server",
   "version": "1.0.0",
   "engines": {
-    "node": "10.14.1"
+    "node": "8.x.x"
   },
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "bcrypt": "^3.0.6",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^2.6.6",
     "express-validator": "^5.3.1",
     "express.js": "^1.0.0",
     "loader": "^2.1.1",
