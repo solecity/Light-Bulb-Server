@@ -1,6 +1,6 @@
 
 
-const Medal = require("../Models/Medal.model.js");
+const Medal = require("../Models/medal.model.js");
 
 
 // GET ALL MEDALS
