@@ -1,4 +1,5 @@
 const mongoose = require("../Database/connection.js");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 
 const unitSchema = new Schema({
@@ -11,30 +12,12 @@ const unitSchema = new Schema({
         type: Number,
         require: true
     },
-    description: {
-        type: String,
-        default: ""
-    },
     teacher: {
-        name: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-        profilePic: {
-            type: String,
-            required: true
-        },
-        level: {
-            type: String,
-            required: true
-        }
+        type: ObjectId,
+        required: true
     },
     courses: {
-        type: [String],        
+        type: [ObjectId],
         required: true
     }
 });

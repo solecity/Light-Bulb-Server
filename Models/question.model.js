@@ -1,4 +1,5 @@
 const mongoose = require("../Database/connection.js");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 
 const questionSchema = new Schema({
@@ -11,63 +12,70 @@ const questionSchema = new Schema({
         require: true
     },
     user: {
-        name: {
-            type: String,
-            required: true
-        },
-        profilePic: {
-            type: String,
-            required: true
-        },
-        level: {
-            type: String,
-            required: true
-        }
+        type: ObjectId,
+        required: true
     },
-    course: String,
-    unit: String,
+    course: {
+        type: ObjectId,
+        required: true
+    },
+    unit: {
+        type: ObjectId,
+        required: true
+    },
     tags: {
-        type: [String],
+        type: [ObjectId],
         require: true
     },
-    images: [String],
+    images: {
+        type: [String],
+        default: []
+    },
     date: {
         type: Date,
         default: Date.now()
     },
-    view: Number,
+    view: {
+        type: Number,
+        default: 0
+    },
     upvote: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [ObjectId],
         default: []
     },
     downvote: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [ObjectId],
         default: []
     },
-    locked: Boolean,
+    locked: {
+        type: Boolean,
+        required: true
+    },
     answers: [{
-        _id: [mongoose.Schema.Types.ObjectId],
+        _id: [ObjectId],
         user: {
-            name: String,
-            profilePic: String,
-            level: String
+            type: ObjectId,
+            require: true
         },
         date: {
             type: Date,
             default: Date.now()
         },
-        answer: String,
+        answer: {
+            type: String,
+            require: true
+        },
         upvote: {
-            type: [Number],
-            default: 0
+            type: [ObjectId],
+            default: []
         },
         downvote: {
-            type: [Number],
-            default: 0
+            type: [ObjectId],
+            default: []
         },
     }],
     followers: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [ObjectId],
         default: []
     }
 });

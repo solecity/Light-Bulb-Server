@@ -1,5 +1,6 @@
 
 const mongoose = require("../Database/connection.js");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
@@ -15,6 +16,10 @@ const courseSchema = new Schema({
     director: {
         type: String,
         required: true
+    },
+    units: {
+        type: [ObjectId],
+        require: true
     }
 });
 

@@ -1,6 +1,7 @@
 
 
 const mongoose = require("../Database/connection.js");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
@@ -32,19 +33,28 @@ const userSchema = new Schema({
         type: String,
         default: "http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     },
-    units: [{
-        unitId: mongoose.Schema.Types.ObjectId,
-        courseId: mongoose.Schema.Types.ObjectId
-    }],
+    subscriptions: {
+        type: [ObjectId],
+        default: []
+    },
+    tags: {
+        type: [ObjectId],
+        default: []
+    },
+    questions: {
+        type: [ObjectId],
+        default: []
+    },
+    /*
     notifications: [{
-        _id: [mongoose.Schema.Types.ObjectId],
-        type: String,
+        _id: ObjectId,
+        category: String,
         message: String,
         date: {
             type: Date,
             default: Date.now()
         }
-    }],
+    }],*/
     gameElements: {
         xp: {
             type: Number,
@@ -55,11 +65,11 @@ const userSchema = new Schema({
             default: 10
         },
         level: {
-            type: String,
+            type: ObjectId,
             default: "Principiante"
         },
         medals: {
-            type: [String],
+            type: [ObjectId],
             default: ["Bem-vindo"]
         },
         reputation: {
