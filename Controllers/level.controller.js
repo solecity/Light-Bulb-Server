@@ -1,21 +1,25 @@
 
 
 const Level = require("../Models/level.model.js");
+const jsonMessages = require("../Assets/jsonMessages/bd.js");
 
 
 // GET ALL LEVELS
 async function getLevels(req, res) {
-    const error = "Cannot get levels."
+    try {
+        const count = await Level.countDocuments();
+        const result = await Level.find();
 
-    await Level.find({}, function (err, level) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            Level.find({}).select('');
-            return res.status(200).send(level);
+            return res.send(result);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
@@ -23,54 +27,64 @@ async function getLevels(req, res) {
 async function getLevelByID(req, res) {
     const _id = req.params.id;
 
-    await Level.findOne({ _id }, function (err, level) {
-        const error = `Cannot find level id '${_id}'.`;
+    try {
+        const result = await Level.findOne({ _id });
 
-        if (err) {
-            return res.status(404).send({ error: error + err });
+        if (result) {
+            return res.send(result);
         }
         else {
-            Level.findOne({ _id }).select('');
-            return res.status(200).send(level);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // ADD NEW LEVEL
 async function addLevel(req, res) {
     let newLevel = new Level(req.body);
-    const error = "Cannot add level."
 
-    newLevel.save(function (err, level) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
-        }
-        else {
-            return res.status(200).send(level);
-        }
-    });
+    try {
+        newLevel.save(function (err, level) {
+            if (err) {
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            }
+            else {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: level });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // REMOVE LEVEL BY ID
 async function removeLevelByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot remove level. Cannot find level with id '${_id}'.`;
 
-    if (await Level.findOne({ _id })) {
-        await Level.findByIdAndDelete(_id, function (err, level) {
-            if (err) {
-                return res.status(404).send({ error: error + err });
+    try {
+        const search = await Level.findOne({ _id });
+        const result = await Level.findByIdAndDelete({ _id });
+        
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
             }
             else {
-                Level.findOne({ _id }).select('');
-                return res.status(200).send(level);
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
             }
-        });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
     }
-    else {
-        return res.status(404).send({ error: error + err });
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
 
@@ -78,20 +92,25 @@ async function removeLevelByID(req, res) {
 // EDIT LEVEL BY ID
 async function editLevelByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot edit level. Cannot find level with id '${_id}'.`;
 
-    if (await Level.findOne({ _id })) {
-        await Level.findByIdAndUpdate(_id, req.body, function (err, level) {
-            if (err) {
-                return res.status(404).send({ error: error + err });
+    try {
+        const search = await Level.findOne({ _id });
+        const result = await Level.findByIdAndUpdate({ _id });
+        
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successEdit.status).send(jsonMessages.success.successEdit);
             }
             else {
-                return res.status(200).send(level);
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
             }
-        });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
     }
-    else {
-        return res.status(404).send({ error: error + err });
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
 

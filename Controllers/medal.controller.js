@@ -1,7 +1,6 @@
 
 
 const Medal = require("../Models/medal.model.js");
-
 const jsonMessages = require("../Assets/jsonMessages/bd.js");
 
 
@@ -74,7 +73,7 @@ async function removeMedalByID(req, res) {
         
         if (search) {
             if (result) {
-                return res.status(jsonMessages.success.successDelete.status).send( jsonMessages.success.successDelete );
+                return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
             }
             else {
                 return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);

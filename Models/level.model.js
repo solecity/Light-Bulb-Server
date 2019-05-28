@@ -2,7 +2,7 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const levelSchema = new Schema({
-    label: {
+    level: {
         type: String,
         required: true,
         unique: true

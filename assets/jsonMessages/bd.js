@@ -29,11 +29,11 @@ module.exports = {
             },
             success: true
         },
-        successUpdate: {
+        successEdit: {
             status: 200,
-            title: "Successful update",
+            title: "Successful edit",
             message: {
-                eng: "Record updated with success",
+                eng: "Record edited with success",
                 pt: "Dados alterados com sucesso"
             },
             success: true
@@ -59,7 +59,7 @@ module.exports = {
             success: false
         },
         errorInsert: {
-            status: 201,
+            status: 400,
             title: "Invalid insert",
             message: {
                 eng: "Cannot insert new record",
@@ -67,12 +67,21 @@ module.exports = {
             },
             success: false
         },
+        errorEdit: {
+            status: 400,
+            title: "Invalid edit",
+            message: {
+                eng: "Cannot edited record with selected id",
+                pt: "Não é possível alterar dados do id selecionado"
+            },
+            success: false
+        },
         errorDelete: {
-            status: 201,
+            status: 400,
             title: "Cannot delete record",
             message: {
                 eng: "Cannot delete record with selected id",
-                pt: "Não é possível eliminar dados com o id selecionado"
+                pt: "Não é possível eliminar dados do id selecionado"
             },
             success: false
         },
