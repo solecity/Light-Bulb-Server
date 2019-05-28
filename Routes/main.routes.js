@@ -35,6 +35,7 @@ router
 router
     .get("/unit", unitController.getUnits)
     .get("/unit/:id", unitController.getUnitByID)
+    .get("/unit/course/:id", unitController.getUnitCourses)
     .post("/unit", unitController.addUnit)
     .delete("/unit/:id", unitController.removeUnitByID)
     .put("/unit/:id", unitController.editUnitByID);

@@ -2,7 +2,7 @@ const mongoose = require("../Database/connection.js");
 const Schema = mongoose.Schema;
 
 const medalSchema = new Schema({
-    label: {
+    medal: {
         type: String,
         required: true,
         unique: true
