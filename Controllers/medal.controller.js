@@ -8,83 +8,84 @@ const jsonMessages = require("../Assets/jsonMessages/bd.js");
 // GET ALL MEDALS
 async function getMedals(req, res) {
     try {
-        let count = await Medal.size();
+        const count = await Medal.countDocuments();
+        const result = await Medal.find();
+
         if (count === 0) {
-            return res.status(jsonMessages.db.noRecords.status).send(jsonMessages.db.noRecords);
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            return res.send(await Medal.find())
+            return res.send(result);
         }
     }
     catch (err) {
-        return res.status(jsonMessages.db.noRecords.status).send(jsonMessages.db.noRecords);
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
-
-    /*
-    await Medal.find({}, function (err, medal) {
-        if (err) {
-            return res.status(jsonMessages.db.noRecords).send(jsonMessages.db.noRecords);
-        }
-        else {
-            Medal.find({}).select('');
-            return res.send(medal);
-        }
-    });*/
 };
 
 
 // GET MEDAL BY ID
 async function getMedalByID(req, res) {
     const _id = req.params.id;
-    const error =`Cannot find medal with id '${_id}'.`;
 
-    await Medal.findOne({ _id }, function (err, medal) {
-        if (err) {
-            return res.status(404).send({ error: error + err});
+    try {
+        const result = await Medal.findOne({ _id });
+
+        if (result) {
+            return res.send(result);
         }
         else {
-            Medal.findOne({ _id }).select('');
-            return res.send(medal);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // ADD NEW MEDAL
 async function addMedal(req, res) {
     let newMedal = new Medal(req.body);
-    const error = "Cannot add medal.";
-    const msg = "New medal added.";
 
-    newMedal.save(function (err, medal) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
-        }
-        else {
-            return res.status(200).send({ success: msg, medal: medal });
-        }
-    });
+    try {
+        newMedal.save(function (err, medal) {
+            if (err) {
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            }
+            else {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: medal });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // REMOVE MEDAL BY ID
 async function removeMedalByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot remove medal. Cannot find medal with id '${_id}'.`;
-    const msg = `Medal with id '${_id}' removed.`;
 
-    if (await Medal.findOne({ _id })) {
-        await Medal.findByIdAndDelete(_id, function (err) {
-            if (err) {
-                return res.status(404).send({ error: error + err });
+    try {
+        const search = await Medal.findOne({ _id });
+        const result = await Medal.findByIdAndDelete({ _id });
+        
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successDelete.status).send( jsonMessages.success.successDelete );
             }
             else {
-                return res.status(200).send({ success: msg });
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
             }
-        });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
     }
-    else {
-        return res.status(404).send({ error: error + err });
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
 

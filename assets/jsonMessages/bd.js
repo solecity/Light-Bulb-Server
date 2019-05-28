@@ -1,79 +1,100 @@
 module.exports = {
-    db: {
+    notFound: {
         noRecords: {
-            msg: "No records found",
+            status: 404,
+            title: "No records found",
             message: {
-                eng: "No Records found",
+                eng: "No records found",
                 pt: "Não foram encontrados dados"
             },
-            status: 404,
             success: false
         },
-        dbError: {
-            msg: "Error",
+        noRecordsId: {
+            status: 404,
+            title: "No records found",
             message: {
-                eng: "Invalid data",
-                pt: "Os dados que inseriu são inválidos!"
+                eng: "No records found with selected id",
+                pt: "Não foram encontrados dados com o id selecionado"
             },
-            success: false,
-            status: 400,
-        },
-        successUpdate: {
-            msg: "success",
-            message: {
-                eng: "Records updated with success",
-                pt: "Dados alterados com sucesso"
-            },
-            success: true,
-            status: 200,
-        },
+            success: false
+        }
+    },
+    success: {
         successInsert: {
-            msg: "success",
+            status: 201,
+            title: "Successful insert",
             message: {
                 eng: "Record inserted with success",
                 pt: "Dados inseridos com sucesso"
             },
-            success: true,
-            status: 201,
+            success: true
         },
-        successDelete: {
-            msg: "success",
-            message: {
-                eng: "Records deleted with success",
-                pt: "Dados apagados com sucesso"
-            },
-            success: true,
+        successUpdate: {
             status: 200,
-        },
-        successDeleteU: {
-            msg: "success",
+            title: "Successful update",
             message: {
-                eng: "Records updated with success",
+                eng: "Record updated with success",
                 pt: "Dados alterados com sucesso"
             },
-            success: true,
+            success: true
+        },
+        successDelete: {
             status: 200,
+            title: "Successful delete",
+            message: {
+                eng: "Record deleted with success",
+                pt: "Dados apagados com sucesso"
+            },
+            success: true
+        }
+    },
+    error: {
+        dbError: {
+            status: 400,
+            title: "Database error",
+            message: {
+                eng: "Server connection error",
+                pt: "Erro na ligação à base de dados"
+            },
+            success: false
+        },
+        errorInsert: {
+            status: 201,
+            title: "Invalid insert",
+            message: {
+                eng: "Cannot insert new record",
+                pt: "Não é possível inserir novos dados"
+            },
+            success: false
+        },
+        errorDelete: {
+            status: 201,
+            title: "Cannot delete record",
+            message: {
+                eng: "Cannot delete record with selected id",
+                pt: "Não é possível eliminar dados com o id selecionado"
+            },
+            success: false
         },
         duplicateEmail: {
-            msg: "emailDuplicated",
+            status: 409,
+            title: "Duplicated email",
             message: {
                 eng: "Email already registered!",
                 pt: "O seu e-mail já se encontra registado!"
             },
             success: false,
             err_code: 1,
-            err_message: "email já existente",
-            status: 409,
+            err_message: "email já existente"
         },
         requiredData: {
-            msg: "dataMissing",
+            status: 400,
+            title: "Data Missing",
             message: {
                 eng: "Required fields are missing",
                 pt: "Falta preencher dados obrigatórios"
             },
-            success: false,
-            status: 400,
-        },
-
+            success: false
+        }
     },
 };
