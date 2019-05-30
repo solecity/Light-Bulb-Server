@@ -1,6 +1,7 @@
 
 
 const Tag = require("../Models/tag.model.js");
+const jsonMessages = require("../Assets/jsonMessages/bd.js");
 
 
 // GET ALL TAGS
@@ -44,17 +45,24 @@ async function getTagByID(req, res) {
 
 // ADD NEW TAG
 async function addTag(req, res) {
-    let newTag = new Tag(req.body);
+    const _tag = req.body;
+    const newTag = new Tag(req.body);
 
     try {
-        newTag.save(function (err, tag) {
-            if (err) {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+        const search = await Tag.findOne({ "tag": _tag });
+        const result = newTag.save();
+
+        if (search) {
+            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
+        }
+        else {
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newTag });
             }
             else {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: tag });
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
             }
-        });
+        }
     }
     catch (err) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
@@ -69,7 +77,7 @@ async function removeTagByID(req, res) {
     try {
         const search = await Tag.findOne({ _id });
         const result = await Tag.findByIdAndDelete({ _id });
-        
+    
         if (search) {
             if (result) {
                 return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);

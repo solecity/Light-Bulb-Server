@@ -34,15 +34,15 @@ const userSchema = new Schema({
         default: "http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     },
     subscriptions: {
-        type: [ObjectId],
+        type: Array,
         default: []
     },
     tags: {
-        type: [ObjectId],
+        type: Array,
         default: []
     },
     questions: {
-        type: [ObjectId],
+        type: Array,
         default: []
     },
     /*
@@ -66,11 +66,11 @@ const userSchema = new Schema({
         },
         level: {
             type: ObjectId,
-            default: "Principiante"
+            default: "5ced87ad24cf640ffcf75bc1"
         },
         medals: {
-            type: [ObjectId],
-            default: ["Bem-vindo"]
+            type: Array,
+            default: ["5ced63c6afd8de22bc5a5177"]
         },
         reputation: {
             type: Number,

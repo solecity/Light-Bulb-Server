@@ -22,6 +22,15 @@ router
 //.put("/user/:id", userController.editUserByID);
 
 
+/* question */
+router
+.get("/question", questionController.getQuestions)
+.get("/question/:id", questionController.getQuestionByID)
+.post("/question", questionController.addQuestion)
+.delete("/question/:id", questionController.removeQuestionByID);
+//.put("/question/:id", questionController.editQuestionByID);
+
+
 /* course */
 router
     .get("/course", courseController.getCourses)
@@ -35,19 +44,12 @@ router
 router
     .get("/unit", unitController.getUnits)
     .get("/unit/:id", unitController.getUnitByID)
-    .get("/unit/course/:id", unitController.getUnitCourses)
+    .get("/unit_details", unitController.getUnitsDetailInfo)
+    .get("/unit/courses/:id", unitController.getCoursesByUnitID)
+    .get("/unit/teacher/:id", unitController.getTeacherByUnitID)
     .post("/unit", unitController.addUnit)
     .delete("/unit/:id", unitController.removeUnitByID)
     .put("/unit/:id", unitController.editUnitByID);
-
-
-/* question */
-router
-    .get("/question", questionController.getQuestions)
-    .get("/question/:id", questionController.getQuestionByID)
-    .post("/question", questionController.addQuestion)
-    .delete("/question/:id", questionController.removeQuestionByID);
-//.put("/question/:id", questionController.editQuestionByID);
 
 
 /* tag */

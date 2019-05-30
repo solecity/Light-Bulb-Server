@@ -85,6 +85,15 @@ module.exports = {
             },
             success: false
         },
+        duplicateData: {
+            status: 409,
+            title: "Duplicated record",
+            message: {
+                eng: "Record already exists!",
+                pt: "Os dados inseridos já existem!"
+            },
+            success: false
+        },
         duplicateEmail: {
             status: 409,
             title: "Duplicated email",

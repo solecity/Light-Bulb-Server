@@ -45,17 +45,24 @@ async function getMedalByID(req, res) {
 
 // ADD NEW MEDAL
 async function addMedal(req, res) {
-    let newMedal = new Medal(req.body);
+    const _medal = req.body.medal;
+    const newMedal = new Medal(req.body);
 
     try {
-        newMedal.save(function (err, medal) {
-            if (err) {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+        const search = await Medal.findOne({ "medal": _medal });
+        const result = newMedal.save();
+
+        if (search) {
+            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
+        }
+        else {
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newMedal });
             }
             else {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: medal });
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
             }
-        });
+        }
     }
     catch (err) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);

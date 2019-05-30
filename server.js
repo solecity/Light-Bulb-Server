@@ -14,5 +14,5 @@ app.use(bodyParser.json());
 app.use(mainRoutes);
 
 app.listen(port, function () {
-    console.log(`Server: `);
+    console.log("Server is running");
 }); 

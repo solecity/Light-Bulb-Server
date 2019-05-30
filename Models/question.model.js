@@ -24,11 +24,11 @@ const questionSchema = new Schema({
         required: true
     },
     tags: {
-        type: [ObjectId],
+        type: Array,
         require: true
     },
     images: {
-        type: [String],
+        type: Array,
         default: []
     },
     date: {
@@ -40,11 +40,11 @@ const questionSchema = new Schema({
         default: 0
     },
     upvote: {
-        type: [ObjectId],
+        type: Array,
         default: []
     },
     downvote: {
-        type: [ObjectId],
+        type: Array,
         default: []
     },
     locked: {
@@ -52,7 +52,7 @@ const questionSchema = new Schema({
         required: true
     },
     answers: [{
-        _id: [ObjectId],
+        _id: ObjectId,
         user: {
             type: ObjectId,
             require: true
@@ -66,16 +66,16 @@ const questionSchema = new Schema({
             require: true
         },
         upvote: {
-            type: [ObjectId],
+            type: Array,
             default: []
         },
         downvote: {
-            type: [ObjectId],
+            type: Array,
             default: []
         },
     }],
     followers: {
-        type: [ObjectId],
+        type: Array,
         default: []
     }
 });

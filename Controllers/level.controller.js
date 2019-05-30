@@ -45,17 +45,24 @@ async function getLevelByID(req, res) {
 
 // ADD NEW LEVEL
 async function addLevel(req, res) {
-    let newLevel = new Level(req.body);
+    const _level = req.body.level;
+    const newLevel = new Level(req.body);
 
     try {
-        newLevel.save(function (err, level) {
-            if (err) {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+        const search = await Level.findOne({ "level": _level });
+        const result = newLevel.save();
+
+        if (search) {
+            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
+        }
+        else {
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newLevel });
             }
             else {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: level });
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
             }
-        });
+        }
     }
     catch (err) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
@@ -95,7 +102,7 @@ async function editLevelByID(req, res) {
 
     try {
         const search = await Level.findOne({ _id });
-        const result = await Level.findByIdAndUpdate({ _id });
+        const result = await Level.findByIdAndUpdate(_id, req.body);
         
         if (search) {
             if (result) {

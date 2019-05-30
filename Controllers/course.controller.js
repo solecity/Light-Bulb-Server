@@ -1,21 +1,25 @@
 
 
 const Course = require("../Models/course.model.js");
+const jsonMessages = require("../Assets/jsonMessages/bd.js");
 
 
 // GET ALL COURSES
 async function getCourses(req, res) {
-    const error = "Cannot get courses."
+    const count = await Course.countDocuments();
+    const result = await Course.find();
 
-    await Course.find({}, function (err, course) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+    try {
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            Course.find({}).select('');
-            return res.status(200).send(course);
+            return res.send(result);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
@@ -23,74 +27,96 @@ async function getCourses(req, res) {
 async function getCourseByID(req, res) {
     const _id = req.params.id;
 
-    await Course.findOne({ _id }, function (err, course) {
-        const error = `Cannot find course id '${_id}'.`;
+    try {
+        const result = await Course.findOne({ _id });
 
-        if (err) {
-            return res.status(404).send({ error: error + err });
+        if (result) {
+            return res.send(result);
         }
         else {
-            Course.findOne({ _id }).select('');
-            return res.status(200).send(course);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // ADD NEW COURSE
 async function addCourse(req, res) {
+    const _course = req.body.course;
     let newCourse = new Course(req.body);
-    const error = "Cannot add course."
 
-    newCourse.save(function (err, course) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+    try {
+        const search = await Course.findOne({ "course": _course });
+        const result = newCourse.save();
+
+        if (search) {
+            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
         }
         else {
-            return res.status(200).send(course);
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newCourse });
+            }
+            else {
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            }
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // REMOVE COURSE BY ID
 async function removeCourseByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot remove course. Cannot find course with id '${_id}'.`;
 
-    if (await Course.findOne({ _id })) {
-        await Course.findByIdAndDelete(_id, function (err, course) {
-            if (err) {
-                return res.status(404).send({ error: error + err });
+    try {
+        const search = await Course.findOne({ _id });
+        const result = await Course.findByIdAndDelete({ _id });
+
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
             }
             else {
-                return res.status(200).send(course);
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
             }
-        });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
     }
-    else {
-        return res.status(404).send({ error: error + err });
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
 
 // EDIT COURSE BY ID
 async function editCourseByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot edit course. Cannot find course with id '${_id}'.`;
 
-    if (await Course.findOne({ _id })) {
-        await Course.findByIdAndUpdate(_id, req.body, function (err, course) {
-            if (err) {
-                return res.status(404).send({ error: error + err });
+    try {
+        const search = await Course.findOne({ _id });
+        const result = await Course.findByIdAndUpdate(_id, req.body);
+
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successEdit.status).send(jsonMessages.success.successEdit);
             }
             else {
-                Course.findOne({ _id }).select('');
-                return res.status(200).send(course);
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
             }
-        });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
     }
-    else {
-        return res.status(404).send({ error: error + err });
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
 
