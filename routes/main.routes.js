@@ -3,13 +3,13 @@
 //const http = require("http");
 const express = require("express");
 
-const userController = require("../Controllers/user.controller.js");
-const courseController = require("../Controllers/course.controller.js");
-const unitController = require("../Controllers/unit.controller.js");
-const questionController = require("../Controllers/question.controller.js");
-const tagController = require("../Controllers/tag.controller.js");
-const levelController = require("../Controllers/level.controller.js");
-const medalController = require("../Controllers/medal.controller.js");
+const userController = require("../controllers/user.controller.js");
+const courseController = require("../controllers/course.controller.js");
+const unitController = require("../controllers/unit.controller.js");
+const questionController = require("../controllers/question.controller.js");
+const tagController = require("../controllers/tag.controller.js");
+const levelController = require("../controllers/level.controller.js");
+const medalController = require("../controllers/medal.controller.js");
 
 var router = express.Router();
 

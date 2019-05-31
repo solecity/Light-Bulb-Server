@@ -1,4 +1,4 @@
-const mongoose = require("../Database/connection.js");
+const mongoose = require("../database/connection.js");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 

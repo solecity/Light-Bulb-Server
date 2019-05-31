@@ -1,6 +1,6 @@
 
 
-const Course = require("../Models/course.model.js");
+const Course = require("../models/course.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

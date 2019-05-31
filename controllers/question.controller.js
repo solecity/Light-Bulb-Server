@@ -1,6 +1,6 @@
 
 
-const Question = require("../Models/question.model.js");
+const Question = require("../models/question.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

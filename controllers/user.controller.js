@@ -1,6 +1,6 @@
 
 
-const User = require("../Models/user.model.js");
+const User = require("../models/user.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

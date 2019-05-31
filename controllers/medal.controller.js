@@ -1,6 +1,6 @@
 
 
-const Medal = require("../Models/medal.model.js");
+const Medal = require("../models/medal.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

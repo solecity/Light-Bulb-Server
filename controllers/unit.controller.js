@@ -1,8 +1,8 @@
 
 
-const Unit = require("../Models/unit.model.js");
-const Course = require("../Models/course.model.js");
-const User = require("../Models/user.model.js");
+const Unit = require("../models/unit.model.js");
+const Course = require("../models/course.model.js");
+const User = require("../models/user.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

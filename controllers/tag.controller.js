@@ -1,6 +1,6 @@
 
 
-const Tag = require("../Models/tag.model.js");
+const Tag = require("../models/tag.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 

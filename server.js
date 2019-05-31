@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 
-const mainRoutes = require("./Routes/main.routes.js");
+const mainRoutes = require("./routes/main.routes.js");
 
 const bodyParser = require('body-parser');
 

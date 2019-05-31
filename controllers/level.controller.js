@@ -1,6 +1,6 @@
 
 
-const Level = require("../Models/level.model.js");
+const Level = require("../models/level.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 
