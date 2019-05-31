@@ -45,12 +45,14 @@ async function getTagByID(req, res) {
 
 // CREATE NEW TAG
 async function createTag(req, res) {
-    const _tag = req.body;
+    const _tag = req.body.tag;
     const newTag = new Tag(req.body);
 
     try {
         const search = await Tag.findOne({ "tag": _tag });
         const result = newTag.save();
+
+        console.log(search)
 
         if (search) {
             return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
