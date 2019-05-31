@@ -8,14 +8,34 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 
 // GET ALL UNITS
 async function getUnits(req, res) {
+    try {
+        const count = await Unit.countDocuments();
+        const result = await Unit.find();
+
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+        }
+        else {
+            return res.send(result);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET ALL UNITS DETAIL INFO
+async function getUnitsDetailInfo(req, res) {
     const count = await Unit.countDocuments();
-    const result = await Unit.find();
 
     try {
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
+            const result = await getDetails();
+
             return res.send(result);
         }
     }
@@ -45,25 +65,12 @@ async function getUnitByID(req, res) {
 };
 
 
-// GET UNITS DETAIL INFO
-async function getUnitsDetailInfo(req, res) {
-    const count = await Unit.countDocuments();
-
-    try {
-        if (count === 0) {
-            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
-        }
-        else {
-            const result = await getDetails();
-
-            return res.send(result);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
+// GET UNIT DETAIL INFO BY ID
+async function getUnitDetailInfoByID(req, res) {
 };
 
+
+// GET UNIT DETAILS BY OBJECT ID
 async function getDetails() {
     const units = await Unit.find().lean();
     const courses = await Course.find().lean();
@@ -83,44 +90,6 @@ async function getDetails() {
 
     return units;
 }
-
-
-// GET COURSES BY UNIT ID
-async function getCoursesByUnitID(req, res) {
-    const _id = req.params.id;
-    const units = await Unit.find({ _id }).lean();
-    const courses = await Course.find().lean();
-
-    units.forEach(unit => {
-        let matchingCourses = [];
-
-        unit.courses.forEach(unitCourse => {
-            courses.forEach(course => {
-                if (course._id.equals(unitCourse)) {
-                    matchingCourses.push({ course });
-                }
-            });
-        });
-        unit.courses = matchingCourses;
-    });
-    res.send(units);
-};
-
-
-// GET TEACHER BY UNIT ID
-async function getTeacherByUnitID(req, res) {
-    const _id = req.params.id;
-    const units = await Unit.find({ _id }).lean();
-    const users = await User.find().lean();
-
-    units.forEach(unit => {
-        users.forEach(user => {
-            if (user._id.equals(user.teacher)) {
-                res.send(user);
-            }
-        });
-    });
-};
 
 
 // CREATE NEW UNIT
@@ -204,10 +173,9 @@ async function updateUnitByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getUnits,
-    getUnitByID,
     getUnitsDetailInfo,
-    getCoursesByUnitID,
-    getTeacherByUnitID,
+    getUnitByID,
+    getUnitDetailInfoByID,
     createUnit,
     deleteUnitByID,
     updateUnitByID

@@ -43,10 +43,9 @@ router
 /* unit */
 router
     .get("/unit", unitController.getUnits)
+    .get("/unit/details", unitController.getUnitsDetailInfo)
     .get("/unit/:id", unitController.getUnitByID)
-    .get("/unit_details", unitController.getUnitsDetailInfo)
-    .get("/unit/courses/:id", unitController.getCoursesByUnitID)
-    .get("/unit/teacher/:id", unitController.getTeacherByUnitID)
+    .get("/unit/details/:id", unitController.getUnitDetailInfoByID)
     .post("/unit", unitController.createUnit)
     .delete("/unit/:id", unitController.deleteUnitByID)
     .put("/unit/:id", unitController.updateUnitByID);
