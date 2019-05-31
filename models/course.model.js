@@ -6,10 +6,9 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema({
     course: {
         type: String,
-        require: true,
-        unique: true
+        require: true
     },
-    category: {
+    level: {
         type: String,
         required: true
     },

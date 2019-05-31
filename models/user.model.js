@@ -45,6 +45,10 @@ const userSchema = new Schema({
         type: Array,
         default: []
     },
+    following: {
+        type: Array,
+        default: []
+    },
     /*
     notifications: [{
         _id: ObjectId,
@@ -60,17 +64,13 @@ const userSchema = new Schema({
             type: Number,
             default: 0
         },
-        maxXP: {
-            type: Number,
-            default: 10
-        },
         level: {
             type: ObjectId,
-            default: "5ced87ad24cf640ffcf75bc1"
+            default: ""
         },
         medals: {
             type: Array,
-            default: ["5ced63c6afd8de22bc5a5177"]
+            default: []
         },
         reputation: {
             type: Number,
