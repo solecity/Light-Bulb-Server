@@ -8,15 +8,15 @@ const unitSchema = new Schema({
         require: true,
         unique: true
     },
-    year: {
-        type: Number,
-        require: true
-    },
     teacher: {
         type: ObjectId,
         required: true
     },
     description: String,
+    year: {
+        type: Number,
+        require: true
+    },
     courses: {
         type: Array,
         required: true
