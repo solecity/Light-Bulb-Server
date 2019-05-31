@@ -6,10 +6,10 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 
 // GET ALL COURSES
 async function getCourses(req, res) {
-    const count = await Course.countDocuments();
-    const result = await Course.find();
-
     try {
+        const count = await Course.countDocuments();
+        const result = await Course.find();
+        
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }

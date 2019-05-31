@@ -6,17 +6,20 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 
 // GET ALL USERS
 async function getUsers(req, res) {
-    const error = "Cannot get users.";
+    try {
+        const count = await User.countDocuments();
+        const result = await User.find();
 
-    await User.find({}, function (err, user) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            User.find({}).select('');
-            return res.send(user);
+            return res.send(result);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
@@ -24,57 +27,72 @@ async function getUsers(req, res) {
 async function getUserByID(req, res) {
     const _id = req.params.id;
 
-    await User.findOne({ _id }, function (err, user) {
-        const error =`Cannot find user id '${_id}'.`;
+    try {
+        const result = await User.findOne({ _id });
 
-        if (err) {
-            return res.status(404).send({ error: error + err});
+        if (result) {
+            return res.send(result);
         }
         else {
-            User.findOne({ _id }).select('');
-            return res.send(user);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // CREATE NEW USER
 async function createUser(req, res) {
+    const _email = req.body.email;
     let newUser = new User(req.body);
-    const error = "Cannot add user."
 
-    newUser.save(function (err, user) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+    try {
+        const search = await User.findOne({ "email": _email });
+        const result = newUser.save();
+
+        if (search) {
+            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
         }
         else {
-            return res.send(user)
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newUser });
+            }
+            else {
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            }
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // DELETE USER BY ID
 async function deleteUserByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot remove user. Cannot find user with id '${_id}'.`;
-/*
-    await User.findOne({ _id }, function (err, user) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
-        }
-        else {*/
-            User.findByIdAndDelete(_id, function (err, user) {
 
-                if (err) {
-                    return res.status(404).send({ error: error +  err });
-                }
-                else {
-                    return res.send(user);
-                }
-            });
-        //}
-    //});
+    try {
+        const search = await User.findOne({ _id });
+        const result = await User.findByIdAndDelete({ _id });
+
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
+            }
+            else {
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
+            }
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 

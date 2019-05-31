@@ -62,18 +62,21 @@ const userSchema = new Schema({
     gameElements: {
         xp: {
             type: Number,
+            require: true,
             default: 0
         },
         level: {
             type: ObjectId,
-            default: ""
+            require: true
         },
         medals: {
             type: Array,
+            require: true,
             default: []
         },
         reputation: {
             type: Number,
+            require: true,
             default: 0
         }
     }
