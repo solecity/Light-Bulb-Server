@@ -102,12 +102,11 @@ async function updateLevelByID(req, res) {
 
     try {
         const search = await Level.findOne({ _id });
-        const result = await Level.findByIdAndUpdate(_id, req.body);
+        const result = await Level.findByIdAndUpdate(_id, req.body, {new: true});
         
         if (search) {
             if (result) {
-                console.log("result")
-                return res.status(jsonMessages.success.successUpdate.status).send(jsonMessages.success.successUpdate);
+                return res.status(jsonMessages.success.successUpdate.status).send({ msg: jsonMessages.success.successUpdate, data: result });
             }
             else {
                 return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
