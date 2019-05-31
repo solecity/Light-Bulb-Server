@@ -19,7 +19,7 @@ module.exports = {
             success: false
         },
         unauthorized: {
-            msg: "unauthorized",
+            msg: "Unauthorized",
             message: {
                 eng: "You cannot access to this route",
                 pt: "Não tens privilégios para aceder a esta rota"

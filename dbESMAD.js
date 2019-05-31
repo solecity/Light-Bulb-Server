@@ -35,6 +35,13 @@ students: [
             position: "student",
             course: "Design de Interiores",
             level: "Mestrado"
+        },
+        {
+            name: "Francisco Sousa",
+            email: "9140885@esmad.ipp.pt",
+            position: "student",
+            course: "Design de Interiores",
+            level: "Mestrado"
         }
     ]
 },
