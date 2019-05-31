@@ -6,17 +6,20 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 
 // GET ALL QUESTIONS
 async function getQuestions(req, res) {
-    const error = "Cannot get questions."
+    try {
+        const count = await Question.countDocuments();
+        const result = await Question.find();
 
-    await Question.find({}, function (err, question) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            Question.find({}).select('');
-            return res.send(question);
+            return res.send(result);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
@@ -24,50 +27,65 @@ async function getQuestions(req, res) {
 async function getQuestionByID(req, res) {
     const _id = req.params.id;
 
-    await Question.findOne({ _id }, function (err, question) {
-        const error =`Cannot find question id '${_id}'.`;
+    try {
+        const result = await Question.findOne({ _id });
 
-        if (err) {
-            return res.status(404).send({ error: error + err});
+        if (result) {
+            return res.send(result);
         }
         else {
-            Question.findOne({ _id }).select('');
-            return res.send(question);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // CREATE NEW QUESTION
 async function createQuestion(req, res) {
     let newQuestion = new Question(req.body);
-    const error = "Cannot add question."
 
-    newQuestion.save(function (err, question) {
-        if (err) {
-            return res.status(404).send({ error: error + err });
+    try {
+        const result = newQuestion.save();
+
+        if (result) {
+            return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newQuestion });
         }
         else {
-            return res.send(question);
+            return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 
 // DELETE QUESTION BY ID
 async function deleteQuestionByID(req, res) {
     const _id = req.params.id;
-    const error = `Cannot remove question. Cannot find question with id '${_id}'.`;
 
-    Question.findByIdAndDelete(_id, function (err, question) {
+    try {
+        const search = await Question.findOne({ _id });
+        const result = await Question.findByIdAndDelete({ _id });
 
-        if (err) {
-            return res.status(404).send({ error: error +  err });
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
+            }
+            else {
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
+            }
         }
         else {
-            return res.send(question);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
-    });
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
 };
 
 

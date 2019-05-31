@@ -150,7 +150,7 @@ async function updateUnitByID(req, res) {
 
     try {
         const search = await Unit.findOne({ _id });
-        const result = await Unit.findByIdAndUpdate(_id, req.body);
+        const result = await Unit.findByIdAndUpdate(_id, req.body, {new: true});
 
         if (search) {
             if (result) {

@@ -9,7 +9,7 @@ async function getCourses(req, res) {
     try {
         const count = await Course.countDocuments();
         const result = await Course.find();
-        
+
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
@@ -46,13 +46,15 @@ async function getCourseByID(req, res) {
 // CREATE NEW COURSE
 async function createCourse(req, res) {
     const _course = req.body.course;
+    const _level = req.body.level;
     let newCourse = new Course(req.body);
 
     try {
-        const search = await Course.findOne({ "course": _course });
+        const searchCourse = await Course.findOne({ "course": _course });
+        const searchLevel = await Course.findOne({ "level": _level });
         const result = newCourse.save();
 
-        if (search) {
+        if (searchCourse && searchLevel) {
             return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
         }
         else {
