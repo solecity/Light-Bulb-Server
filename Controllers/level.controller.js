@@ -1,7 +1,7 @@
 
 
 const Level = require("../Models/level.model.js");
-const jsonMessages = require("../Assets/jsonMessages/bd.js");
+const jsonMessages = require("../Assets/jsonMessages/db.js");
 
 
 // GET ALL LEVELS

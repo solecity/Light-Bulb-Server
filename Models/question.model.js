@@ -52,7 +52,7 @@ const questionSchema = new Schema({
         required: true
     },
     answers: [{
-        _id: ObjectId,
+        //_id: ObjectId,
         user: {
             type: ObjectId,
             require: true

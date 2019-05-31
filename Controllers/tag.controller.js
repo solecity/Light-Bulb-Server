@@ -1,7 +1,7 @@
 
 
 const Tag = require("../Models/tag.model.js");
-const jsonMessages = require("../Assets/jsonMessages/bd.js");
+const jsonMessages = require("../Assets/jsonMessages/db.js");
 
 
 // GET ALL TAGS

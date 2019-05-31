@@ -16,6 +16,7 @@ const unitSchema = new Schema({
         type: ObjectId,
         required: true
     },
+    description: String,
     courses: {
         type: Array,
         required: true

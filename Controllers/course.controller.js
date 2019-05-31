@@ -1,7 +1,7 @@
 
 
 const Course = require("../Models/course.model.js");
-const jsonMessages = require("../Assets/jsonMessages/bd.js");
+const jsonMessages = require("../Assets/jsonMessages/db.js");
 
 
 // GET ALL COURSES
