@@ -27,7 +27,6 @@ module.exports = {
             status: 401,
             success: false
         },
-
         email: {
             msg: "Invalid",
             message: {
