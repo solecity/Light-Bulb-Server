@@ -12,7 +12,7 @@ const courseSchema = new Schema({
         type: String,
         required: true
     },
-    director: {
+    coordinator: {
         type: String,
         required: true
     },
