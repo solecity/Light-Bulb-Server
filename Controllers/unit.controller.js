@@ -3,7 +3,7 @@
 const Unit = require("../Models/unit.model.js");
 const Course = require("../Models/course.model.js");
 const User = require("../Models/user.model.js");
-const jsonMessages = require("../Assets/jsonMessages/db.js");
+const jsonMessages = require("../assets/jsonMessages/db.js");
 
 
 // GET ALL UNITS
