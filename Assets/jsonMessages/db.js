@@ -29,7 +29,7 @@ module.exports = {
             },
             success: true
         },
-        successEdit: {
+        successUpdate: {
             status: 200,
             title: "Successful edit",
             message: {

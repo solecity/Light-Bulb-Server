@@ -105,7 +105,7 @@ async function updateCourseByID(req, res) {
 
         if (search) {
             if (result) {
-                return res.status(jsonMessages.success.successEdit.status).send(jsonMessages.success.successEdit);
+                return res.status(jsonMessages.success.successUpdate.status).send(jsonMessages.success.successUpdate);
             }
             else {
                 return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
