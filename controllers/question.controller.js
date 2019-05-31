@@ -8,13 +8,13 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 async function getQuestions(req, res) {
     try {
         const count = await Question.countDocuments();
-        const result = await Question.find();
+        const search = await Question.find();
 
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            return res.send(result);
+            return res.send(search);
         }
     }
     catch (err) {
@@ -28,10 +28,10 @@ async function getQuestionByID(req, res) {
     const _id = req.params.id;
 
     try {
-        const result = await Question.findOne({ _id });
+        const search = await Question.findOne({ _id });
 
-        if (result) {
-            return res.send(result);
+        if (search) {
+            return res.send(search);
         }
         else {
             return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);

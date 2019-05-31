@@ -10,13 +10,13 @@ const jsonMessages = require("../assets/jsonMessages/db.js");
 async function getUnits(req, res) {
     try {
         const count = await Unit.countDocuments();
-        const result = await Unit.find();
+        const search = await Unit.find();
 
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            return res.send(result);
+            return res.send(search);
         }
     }
     catch (err) {
@@ -27,46 +27,21 @@ async function getUnits(req, res) {
 
 // GET ALL UNITS DETAIL INFO
 async function getUnitsDetailInfo(req, res) {
-    const count = await Unit.countDocuments();
-
     try {
+        const count = await Unit.countDocuments();
+
         if (count === 0) {
             return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
         }
         else {
-            const result = await getDetails();
+            const search = await getDetails();
 
-            return res.send(result);
+            return res.send(search);
         }
     }
     catch (err) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
-};
-
-
-// GET UNIT BY ID
-async function getUnitByID(req, res) {
-    const _id = req.params.id;
-
-    try {
-        const result = await Unit.findOne({ _id });
-
-        if (result) {
-            return res.send(result);
-        }
-        else {
-            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET UNIT DETAIL INFO BY ID
-async function getUnitDetailInfoByID(req, res) {
 };
 
 
@@ -74,7 +49,7 @@ async function getUnitDetailInfoByID(req, res) {
 async function getDetails() {
     const units = await Unit.find().lean();
     const courses = await Course.find().lean();
-    
+
     units.forEach(unit => {
         let matchingCourses = [];
 
@@ -89,6 +64,66 @@ async function getDetails() {
     });
 
     return units;
+}
+
+
+// GET UNIT BY ID
+async function getUnitByID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await Unit.findOne({ _id });
+
+        if (search) {
+            return res.send(search);
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET UNIT DETAIL INFO BY ID
+async function getUnitDetailInfoByID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await Unit.findOne({ _id });
+        const result = await getDetailsByID(search);
+
+        if (result) {
+            return res.send(result);
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET UNIT DETAILS BY OBJECT ID
+async function getDetailsByID(unit) {
+    const courses = await Course.find().lean();
+    let matchingCourses = [];
+    
+
+    unit.courses.forEach(unitCourse => {
+        courses.forEach(course => {
+            if (course._id.equals(unitCourse)) {
+                matchingCourses.push(course);
+            }
+        });
+    });
+    unit.courses = matchingCourses;
+
+    return unit;
 }
 
 
@@ -150,7 +185,7 @@ async function updateUnitByID(req, res) {
 
     try {
         const search = await Unit.findOne({ _id });
-        const result = await Unit.findByIdAndUpdate(_id, req.body, {new: true});
+        const result = await Unit.findByIdAndUpdate(_id, req.body, { new: true });
 
         if (search) {
             if (result) {
