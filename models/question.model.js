@@ -49,31 +49,35 @@ const questionSchema = new Schema({
     },
     locked: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
-    answers: [{
-        //_id: ObjectId,
-        user: {
-            type: ObjectId,
-            require: true
-        },
-        date: {
-            type: Date,
-            default: Date.now()
-        },
-        answer: {
-            type: String,
-            require: true
-        },
-        upvote: {
-            type: Array,
-            default: []
-        },
-        downvote: {
-            type: Array,
-            default: []
-        },
-    }],
+    answers: {
+        type: [{
+            //_id: ObjectId,
+            user: {
+                type: ObjectId,
+                require: true
+            },
+            date: {
+                type: Date,
+                default: Date.now()
+            },
+            answer: {
+                type: String,
+                require: true
+            },
+            upvote: {
+                type: Array,
+                default: []
+            },
+            downvote: {
+                type: Array,
+                default: []
+            },
+        }],
+        default: []
+    },
     followers: {
         type: Array,
         default: []
