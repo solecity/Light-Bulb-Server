@@ -123,8 +123,8 @@ async function getTeacherByUnitID(req, res) {
 };
 
 
-// ADD NEW UNIT
-async function addUnit(req, res) {
+// CREATE NEW UNIT
+async function createUnit(req, res) {
     const _unit = req.body.unit;
     let newUnit = new Unit(req.body);
 
@@ -150,8 +150,8 @@ async function addUnit(req, res) {
 };
 
 
-// REMOVE UNIT BY ID
-async function removeUnitByID(req, res) {
+// DELETE UNIT BY ID
+async function deleteUnitByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -175,8 +175,8 @@ async function removeUnitByID(req, res) {
     }
 };
 
-// EDIT UNIT BY ID
-async function editUnitByID(req, res) {
+// UPDATE UNIT BY ID
+async function updateUnitByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -208,7 +208,7 @@ module.exports = {
     getUnitsDetailInfo,
     getCoursesByUnitID,
     getTeacherByUnitID,
-    addUnit,
-    removeUnitByID,
-    editUnitByID
+    createUnit,
+    deleteUnitByID,
+    updateUnitByID
 };

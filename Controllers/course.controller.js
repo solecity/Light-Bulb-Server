@@ -43,8 +43,8 @@ async function getCourseByID(req, res) {
 };
 
 
-// ADD NEW COURSE
-async function addCourse(req, res) {
+// CREATE NEW COURSE
+async function createCourse(req, res) {
     const _course = req.body.course;
     let newCourse = new Course(req.body);
 
@@ -70,8 +70,8 @@ async function addCourse(req, res) {
 };
 
 
-// REMOVE COURSE BY ID
-async function removeCourseByID(req, res) {
+// DELETE COURSE BY ID
+async function deleteCourseByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -95,8 +95,8 @@ async function removeCourseByID(req, res) {
     }
 };
 
-// EDIT COURSE BY ID
-async function editCourseByID(req, res) {
+// UPDATE COURSE BY ID
+async function updateCourseByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -125,7 +125,7 @@ async function editCourseByID(req, res) {
 module.exports = {
     getCourses,
     getCourseByID,
-    addCourse,
-    removeCourseByID,
-    editCourseByID
+    createCourse,
+    deleteCourseByID,
+    updateCourseByID
 };

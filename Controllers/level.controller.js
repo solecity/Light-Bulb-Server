@@ -43,8 +43,8 @@ async function getLevelByID(req, res) {
 };
 
 
-// ADD NEW LEVEL
-async function addLevel(req, res) {
+// CREATE NEW LEVEL
+async function createLevel(req, res) {
     const _level = req.body.level;
     const newLevel = new Level(req.body);
 
@@ -70,8 +70,8 @@ async function addLevel(req, res) {
 };
 
 
-// REMOVE LEVEL BY ID
-async function removeLevelByID(req, res) {
+// DELETE LEVEL BY ID
+async function deleteLevelByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -96,8 +96,8 @@ async function removeLevelByID(req, res) {
 };
 
 
-// EDIT LEVEL BY ID
-async function editLevelByID(req, res) {
+// UPDATE LEVEL BY ID
+async function updateLevelByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -126,7 +126,7 @@ async function editLevelByID(req, res) {
 module.exports = {
     getLevels,
     getLevelByID,
-    addLevel,
-    removeLevelByID,
-    editLevelByID
+    createLevel,
+    deleteLevelByID,
+    updateLevelByID
 };

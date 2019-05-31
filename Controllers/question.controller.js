@@ -37,8 +37,8 @@ async function getQuestionByID(req, res) {
 };
 
 
-// ADD NEW QUESTION
-async function addQuestion(req, res) {
+// CREATE NEW QUESTION
+async function createQuestion(req, res) {
     let newQuestion = new Question(req.body);
     const error = "Cannot add question."
 
@@ -53,8 +53,8 @@ async function addQuestion(req, res) {
 };
 
 
-// REMOVE QUESTION BY ID
-async function removeQuestionByID(req, res) {
+// DELETE QUESTION BY ID
+async function deleteQuestionByID(req, res) {
     const _id = req.params.id;
     const error = `Cannot remove question. Cannot find question with id '${_id}'.`;
 
@@ -74,6 +74,6 @@ async function removeQuestionByID(req, res) {
 module.exports = {
     getQuestions,
     getQuestionByID,
-    addQuestion,
-    removeQuestionByID
+    createQuestion,
+    deleteQuestionByID
 };

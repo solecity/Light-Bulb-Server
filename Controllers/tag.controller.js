@@ -43,8 +43,8 @@ async function getTagByID(req, res) {
 };
 
 
-// ADD NEW TAG
-async function addTag(req, res) {
+// CREATE NEW TAG
+async function createTag(req, res) {
     const _tag = req.body;
     const newTag = new Tag(req.body);
 
@@ -70,8 +70,8 @@ async function addTag(req, res) {
 };
 
 
-// REMOVE TAG BY ID
-async function removeTagByID(req, res) {
+// DELETE TAG BY ID
+async function deleteTagByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -100,6 +100,6 @@ async function removeTagByID(req, res) {
 module.exports = {
     getTags,
     getTagByID,
-    addTag,
-    removeTagByID
+    createTag,
+    deleteTagByID
 };

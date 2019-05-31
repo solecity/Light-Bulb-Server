@@ -37,8 +37,8 @@ async function getUserByID(req, res) {
 };
 
 
-// ADD NEW USER
-async function addUser(req, res) {
+// CREATE NEW USER
+async function createUser(req, res) {
     let newUser = new User(req.body);
     const error = "Cannot add user."
 
@@ -53,8 +53,8 @@ async function addUser(req, res) {
 };
 
 
-// REMOVE USER BY ID
-async function removeUserByID(req, res) {
+// DELETE USER BY ID
+async function deleteUserByID(req, res) {
     const _id = req.params.id;
     const error = `Cannot remove user. Cannot find user with id '${_id}'.`;
 /*
@@ -81,6 +81,6 @@ async function removeUserByID(req, res) {
 module.exports = {
     getUsers,
     getUserByID,
-    addUser,
-    removeUserByID
+    createUser,
+    deleteUserByID
 };

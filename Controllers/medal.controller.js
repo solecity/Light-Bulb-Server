@@ -43,8 +43,8 @@ async function getMedalByID(req, res) {
 };
 
 
-// ADD NEW MEDAL
-async function addMedal(req, res) {
+// CREATE NEW MEDAL
+async function createMedal(req, res) {
     const _medal = req.body.medal;
     const newMedal = new Medal(req.body);
 
@@ -70,8 +70,8 @@ async function addMedal(req, res) {
 };
 
 
-// REMOVE MEDAL BY ID
-async function removeMedalByID(req, res) {
+// DELETE MEDAL BY ID
+async function deleteMedalByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -100,6 +100,6 @@ async function removeMedalByID(req, res) {
 module.exports = {
     getMedals,
     getMedalByID,
-    addMedal,
-    removeMedalByID
+    createMedal,
+    deleteMedalByID
 };
