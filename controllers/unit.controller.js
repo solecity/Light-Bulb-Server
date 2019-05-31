@@ -154,7 +154,7 @@ async function updateUnitByID(req, res) {
 
         if (search) {
             if (result) {
-                return res.status(jsonMessages.success.successUpdate.status).send(jsonMessages.success.successUpdate);
+                return res.status(jsonMessages.success.successUpdate.status).send({ msg: jsonMessages.success.successUpdate, data: result });
             }
             else {
                 return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
