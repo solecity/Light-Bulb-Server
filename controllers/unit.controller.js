@@ -49,6 +49,7 @@ async function getUnitsDetailInfo(req, res) {
 async function getDetails() {
     const units = await Unit.find().lean();
     const courses = await Course.find().lean();
+    const users = await User.find().lean();
 
     units.forEach(unit => {
         let matchingCourses = [];
@@ -56,11 +57,28 @@ async function getDetails() {
         unit.courses.forEach(unitCourse => {
             courses.forEach(course => {
                 if (course._id.equals(unitCourse)) {
-                    matchingCourses.push({ course });
+                    let tempCourse = {
+                        course: course.course,
+                        level: course.level,
+                        coordinator: course.coordinator
+                    }
+                    matchingCourses.push(tempCourse);
                 }
+
+                users.forEach(user => {
+                    if (user._id.equals(course.coordinator)) {
+                        course.coordinator = user.name;
+                    }
+                })
             });
         });
         unit.courses = matchingCourses;
+
+        users.forEach(user => {
+            if (user._id.equals(unit.teacher)) {
+                unit.teacher = user.name;
+            }
+        })
     });
 
     return units;
@@ -92,7 +110,7 @@ async function getUnitDetailInfoByID(req, res) {
     const _id = req.params.id;
 
     try {
-        const search = await Unit.findOne({ _id });
+        const search = await Unit.findOne({ _id }).lean();
         const result = await getDetailsByID(search);
 
         if (result) {
@@ -111,17 +129,35 @@ async function getUnitDetailInfoByID(req, res) {
 // GET UNIT DETAILS BY OBJECT ID
 async function getDetailsByID(unit) {
     const courses = await Course.find().lean();
+    const users = await User.find().lean();
     let matchingCourses = [];
-    
 
     unit.courses.forEach(unitCourse => {
         courses.forEach(course => {
             if (course._id.equals(unitCourse)) {
-                matchingCourses.push(course);
+                let tempCourse = {
+                    course: course.course,
+                    level: course.level,
+                    coordinator: ""
+                }
+
+                users.forEach(user => {
+                    if (user._id.equals(course.coordinator)) {
+                        tempCourse.coordinator = user.name;
+                    }
+                })
+
+                matchingCourses.push(tempCourse);
             }
         });
     });
     unit.courses = matchingCourses;
+
+    users.forEach(user => {
+        if (user._id.equals(unit.teacher)) {
+            unit.teacher = user.name;
+        }
+    })
 
     return unit;
 }
