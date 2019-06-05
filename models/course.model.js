@@ -13,7 +13,7 @@ const courseSchema = new Schema({
         required: true
     },
     coordinator: {
-        type: String,
+        type: ObjectId,
         required: true
     },
     units: {

@@ -23,6 +23,35 @@ async function getUsers(req, res) {
 };
 
 
+// GET ALL USERS BASIC INFO (ID, NAME, TYPE)
+async function getUsersBasicInfo(req, res) {
+    let tempUser = [];
+
+    try {
+        const count = await User.countDocuments();
+        const search = await User.find();
+
+        for (let i = 0; i < search.length; i++) {
+            tempUser.push({
+                _id: search[i]._id,
+                name: search[i].name,
+                type: search[i].type
+            })            
+        }
+
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+        }
+        else {
+            return res.send(tempUser);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
 // GET USER BY ID
 async function getUserByID(req, res) {
     const _id = req.params.id;
@@ -99,6 +128,7 @@ async function deleteUserByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getUsers,
+    getUsersBasicInfo,
     getUserByID,
     createUser,
     deleteUserByID

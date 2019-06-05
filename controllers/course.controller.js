@@ -1,6 +1,8 @@
 
 
 const Course = require("../models/course.model.js");
+const Unit = require("../models/unit.model.js");
+const User = require("../models/user.model.js");
 const jsonMessages = require("../assets/jsonMessages/db.js");
 
 
@@ -22,6 +24,67 @@ async function getCourses(req, res) {
     }
 };
 
+// GET ALL COURSES DETAIL INFO
+async function getCoursesDetails(req, res) {
+    try {
+        const count = await Course.countDocuments();
+
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+        }
+        else {
+            const search = await getDetails();
+
+            return res.send(search);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET UNIT DETAILS BY OBJECT ID
+async function getDetails() {
+    const courses = await Course.find().lean();
+    const units = await Unit.find().lean();
+    const users = await User.find().lean();
+
+    courses.forEach(course => {
+        let matchingUnits = [];
+
+        course.units.forEach(courseUnit => {
+            units.forEach(unit => {
+                if (unit._id.equals(courseUnit)) {
+                    let tempUnit = {
+                        unit: unit.unit,
+                        year: unit.year,
+                        teacher: unit.teacher,
+                        description: unit.description
+                    }
+
+                    users.forEach(user => {
+                        if (user._id.equals(unit.teacher)) {
+                            tempUnit.teacher = user.name;
+                        }
+                    })
+
+                    matchingUnits.push(tempUnit);
+                }
+            });
+        });
+        course.units = matchingUnits;
+
+        users.forEach(user => {
+            if (user._id.equals(course.coordinator)) {
+                course.coordinator = user.name;
+            }
+        })
+    });
+
+    return courses;
+}
+
 
 // GET COURSE BY ID
 async function getCourseByID(req, res) {
@@ -41,6 +104,66 @@ async function getCourseByID(req, res) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
+
+
+// GET COURSE DETAIL INFO BY ID
+async function getCourseDetailsByID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await Course.findOne({ _id }).lean();
+        const result = await getDetailsByID(search);
+
+        if (result) {
+            return res.send(result);
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET COURSE DETAILS BY OBJECT ID
+async function getDetailsByID(course) {
+    const units = await Unit.find().lean();
+    const users = await User.find().lean();
+    let matchingUnits = [];
+
+
+    course.units.forEach(courseUnit => {
+        units.forEach(unit => {
+            if (unit._id.equals(courseUnit)) {
+                let tempUnit = {
+                    unit: unit.unit,
+                    year: unit.year,
+                    teacher: unit.teacher,
+                    description: unit.description
+                }
+
+                users.forEach(user => {
+                    if (user._id.equals(unit.teacher)) {
+                        tempUnit.teacher = user.name;
+                    }
+                })
+
+                matchingUnits.push(tempUnit);
+            }
+        });
+    });
+    course.units = matchingUnits;
+
+    users.forEach(user => {
+        if (user._id.equals(course.coordinator)) {
+            course.coordinator = user.name;
+        }
+    })
+
+    return course;
+}
 
 
 // CREATE NEW COURSE
@@ -97,6 +220,7 @@ async function deleteCourseByID(req, res) {
     }
 };
 
+
 // UPDATE COURSE BY ID
 async function updateCourseByID(req, res) {
     const _id = req.params.id;
@@ -126,7 +250,9 @@ async function updateCourseByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getCourses,
+    getCoursesDetails,
     getCourseByID,
+    getCourseDetailsByID,
     createCourse,
     deleteCourseByID,
     updateCourseByID

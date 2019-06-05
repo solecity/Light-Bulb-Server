@@ -26,7 +26,7 @@ async function getUnits(req, res) {
 
 
 // GET ALL UNITS DETAIL INFO
-async function getUnitsDetailInfo(req, res) {
+async function getUnitsDetails(req, res) {
     try {
         const count = await Unit.countDocuments();
 
@@ -45,7 +45,7 @@ async function getUnitsDetailInfo(req, res) {
 };
 
 
-// GET UNIT DETAILS BY OBJECT ID
+// GET DETAILS BY UNIT OBJECT ID
 async function getDetails() {
     const units = await Unit.find().lean();
     const courses = await Course.find().lean();
@@ -62,14 +62,15 @@ async function getDetails() {
                         level: course.level,
                         coordinator: course.coordinator
                     }
+
+                    users.forEach(user => {
+                        if (user._id.equals(course.coordinator)) {
+                            tempCourse.coordinator = user.name;
+                        }
+                    })
+
                     matchingCourses.push(tempCourse);
                 }
-
-                users.forEach(user => {
-                    if (user._id.equals(course.coordinator)) {
-                        course.coordinator = user.name;
-                    }
-                })
             });
         });
         unit.courses = matchingCourses;
@@ -106,7 +107,7 @@ async function getUnitByID(req, res) {
 
 
 // GET UNIT DETAIL INFO BY ID
-async function getUnitDetailInfoByID(req, res) {
+async function getUnitDetailsByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -126,7 +127,7 @@ async function getUnitDetailInfoByID(req, res) {
 };
 
 
-// GET UNIT DETAILS BY OBJECT ID
+// GET DETAILS BY UNIT OBJECT ID
 async function getDetailsByID(unit) {
     const courses = await Course.find().lean();
     const users = await User.find().lean();
@@ -244,9 +245,9 @@ async function updateUnitByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getUnits,
-    getUnitsDetailInfo,
+    getUnitsDetails,
     getUnitByID,
-    getUnitDetailInfoByID,
+    getUnitDetailsByID,
     createUnit,
     deleteUnitByID,
     updateUnitByID

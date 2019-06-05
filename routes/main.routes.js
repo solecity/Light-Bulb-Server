@@ -16,6 +16,7 @@ var router = express.Router();
 /* user */
 router
     .get("/user", userController.getUsers)
+    .get("/user/basic", userController.getUsersBasicInfo)
     .get("/user/:id", userController.getUserByID)
     .post("/user", userController.createUser)
     .delete("/user/:id", userController.deleteUserByID);
@@ -34,7 +35,9 @@ router
 /* course */
 router
     .get("/course", courseController.getCourses)
+    .get("/course/details", courseController.getCoursesDetails)
     .get("/course/:id", courseController.getCourseByID)
+    .get("/course/details/:id", courseController.getCourseDetailsByID)
     .post("/course", courseController.createCourse)
     .delete("/course/:id", courseController.deleteCourseByID)
     .put("/course/:id", courseController.updateCourseByID);
@@ -43,9 +46,9 @@ router
 /* unit */
 router
     .get("/unit", unitController.getUnits)
-    .get("/unit/details", unitController.getUnitsDetailInfo)
+    .get("/unit/details", unitController.getUnitsDetails)
     .get("/unit/:id", unitController.getUnitByID)
-    .get("/unit/details/:id", unitController.getUnitDetailInfoByID)
+    .get("/unit/details/:id", unitController.getUnitDetailsByID)
     .post("/unit", unitController.createUnit)
     .delete("/unit/:id", unitController.deleteUnitByID)
     .put("/unit/:id", unitController.updateUnitByID);
