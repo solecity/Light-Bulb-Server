@@ -25,11 +25,14 @@ router
 
 /* question */
 router
-.get("/question", questionController.getQuestions)
-.get("/question/:id", questionController.getQuestionByID)
-.post("/question", questionController.createQuestion)
-.delete("/question/:id", questionController.deleteQuestionByID);
-//.put("/question/:id", questionController.updateQuestionByID);
+    .get("/question", questionController.getQuestions)
+    .get("/question/details", questionController.getQuestionsDetails)
+    .get("/question/:id", questionController.getQuestionByID)
+    .get("/question/details/:id", questionController.getQuestionDetailsByID)
+    .get("/question/answers/:id", questionController.getAnswersByQuestionID)
+    .post("/question", questionController.createQuestion)
+    .delete("/question/:id", questionController.deleteQuestionByID)
+    .put("/question/:id", questionController.updateQuestionByID);
 
 
 /* course */

@@ -1,24 +1,30 @@
 
 
 const Question = require("../models/question.model.js");
-const Course = require("../models/course.model.js");
-const Unit = require("../models/unit.model.js");
-const Tag = require("../models/tag.model.js");
 const User = require("../models/user.model.js");
 const jsonMessages = require("../jsonMessages/db.js");
 
 
-// GET ALL QUESTIONS
-async function getQuestions(req, res) {
-    try {
-        const count = await Question.countDocuments();
-        const search = await Question.find();
+// GET ALL ANSWERS BY QUESTION ID
+async function getAnswersByQuestion(req, res) {
+    const _id = req.params.id;
 
-        if (count === 0) {
-            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+    try {
+        const questionID = await Question.findOne({ _id });
+
+        if (questionID) {
+            const count = await Answer.countDocuments();
+            const search = await Answer.find({ question: _id });
+    
+            if (count === 0) {
+                return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+            }
+            else {
+                return res.send(search);
+            }
         }
         else {
-            return res.send(search);
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
         }
     }
     catch (err) {
@@ -27,71 +33,8 @@ async function getQuestions(req, res) {
 };
 
 
-// GET ALL QUESTIONS DETAIL INFO
-async function getQuestionsDetails(req, res) {
-    try {
-        const count = await Question.countDocuments();
-
-        if (count === 0) {
-            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
-        }
-        else {
-            const search = await getDetails();
-
-            return res.send(search);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET QUESTIONS DETAILS BY OBJECT ID
-async function getDetails() {
-    const questions = await Question.find().lean();
-    const courses = await Course.find().lean();
-    const units = await Unit.find().lean();
-    const tags = await Tag.find().lean();
-    const users = await User.find().lean();
-
-    questions.forEach(question => {
-        let matchingTags = [];
-        
-        courses.forEach(course => {
-            if (course._id.equals(question.course)) {
-                question.course = course.course;
-            }
-        });
-
-        units.forEach(unit => {
-            if (unit._id.equals(question.unit)) {
-                question.unit = unit.unit;
-            }
-        });
-
-        question.tags.forEach(questionTag => {
-            tags.forEach(tag => {
-                if (tag._id.equals(questionTag)) {
-                    matchingTags.push(tag.tag);
-                }
-            });
-        });
-        question.tags = matchingTags;
-
-        users.forEach(user => {
-            if (user._id.equals(question.user)) {
-                question.user = user.name;
-            }
-        })
-    });
-
-    return questions;
-}
-
-
-// GET QUESTION BY ID
-async function getQuestionByID(req, res) {
+// GET ALL ANSWERS BY USER ID
+async function getAnswers(req, res) {
     const _id = req.params.id;
 
     try {
@@ -110,8 +53,8 @@ async function getQuestionByID(req, res) {
 };
 
 
-// GET QUESTION DETAIL INFO BY ID
-async function getQuestionDetailsByID(req, res) {
+// GET ANSWER DETAIL INFO BY ID
+async function getAnswerDetailsByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -131,7 +74,7 @@ async function getQuestionDetailsByID(req, res) {
 };
 
 
-// GET QUESTION DETAILS BY OBJECT ID
+// GET ANSWER DETAILS BY OBJECT ID
 async function getDetailsByID(question) {
     const courses = await Course.find().lean();
     const units = await Unit.find().lean();
@@ -170,33 +113,8 @@ async function getDetailsByID(question) {
 }
 
 
-// GET ALL ANSWERS BY QUESTION ID
-async function getAnswersByQuestionID(req, res) {
-    const _id = req.params.id;
-
-    try {
-        const search = await Question.findOne({ _id });
-
-        if (search) {
-            if (search.answers.length === 0) {
-                return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
-            }
-            else {
-                return res.send({question: search, answers: search.answers });
-            }
-        }
-        else {
-            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// CREATE NEW QUESTION
-async function createQuestion(req, res) {
+// CREATE NEW ANSWER
+async function createAnswer(req, res) {
     let newQuestion = new Question(req.body);
 
     try {
@@ -216,7 +134,7 @@ async function createQuestion(req, res) {
 
 
 // DELETE QUESTION BY ID
-async function deleteQuestionByID(req, res) {
+async function deleteAnswerByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -241,15 +159,13 @@ async function deleteQuestionByID(req, res) {
 };
 
 
-// UPDATE COURSE BY ID
-async function updateQuestionByID(req, res) {
+// UPDATE ANSWER BY ID
+async function updateAnswerByID(req, res) {
     const _id = req.params.id;
 
     try {
         const search = await Question.findOne({ _id });
         const result = await Question.findByIdAndUpdate(_id, req.body);
-
-        console.log(req.body)
 
         if (search) {
             if (result) {
@@ -271,12 +187,11 @@ async function updateQuestionByID(req, res) {
 
 // EXPORT ALL FUNCTIONS
 module.exports = {
-    getQuestions,
-    getQuestionsDetails,
-    getQuestionByID,
-    getQuestionDetailsByID,
-    getAnswersByQuestionID,
-    createQuestion,
-    deleteQuestionByID,
-    updateQuestionByID
+    getAnswersByQuestion,
+    getAnswersDetails,
+    getAnswerByID,
+    getAnswerDetailsByID,
+    createAnswer,
+    deleteAnswerByID,
+    updateAnswerByID
 };

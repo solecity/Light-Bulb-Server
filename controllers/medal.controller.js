@@ -1,7 +1,7 @@
 
 
 const Medal = require("../models/medal.model.js");
-const jsonMessages = require("../assets/jsonMessages/db.js");
+const jsonMessages = require("../jsonMessages/db.js");
 
 
 // GET ALL MEDALS

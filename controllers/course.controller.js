@@ -3,7 +3,7 @@
 const Course = require("../models/course.model.js");
 const Unit = require("../models/unit.model.js");
 const User = require("../models/user.model.js");
-const jsonMessages = require("../assets/jsonMessages/db.js");
+const jsonMessages = require("../jsonMessages/db.js");
 
 
 // GET ALL COURSES
@@ -23,6 +23,7 @@ async function getCourses(req, res) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
+
 
 // GET ALL COURSES DETAIL INFO
 async function getCoursesDetails(req, res) {
@@ -52,7 +53,7 @@ async function getDetails() {
 
     courses.forEach(course => {
         let matchingUnits = [];
-
+        
         course.units.forEach(courseUnit => {
             units.forEach(unit => {
                 if (unit._id.equals(courseUnit)) {

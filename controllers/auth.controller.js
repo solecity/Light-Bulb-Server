@@ -1,5 +1,5 @@
 const User = require("../models/user.model.js");
-const jsonMessages = require("../assets/jsonMessages/db.js");
+const jsonMessages = require("../jsonMessages/db.js");
 const bcrypt = require("bcrypt");
 
 

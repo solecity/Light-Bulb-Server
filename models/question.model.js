@@ -36,11 +36,11 @@ const questionSchema = new Schema({
         type: Number,
         default: 0
     },
-    upvote: {
+    upvotes: {
         type: Array,
         default: []
     },
-    downvote: {
+    downvotes: {
         type: Array,
         default: []
     },
@@ -52,6 +52,10 @@ const questionSchema = new Schema({
     answers: {
         type: [{
             //_id: ObjectId,
+            description: {
+                type: String,
+                require: true
+            },
             user: {
                 type: ObjectId,
                 require: true
@@ -60,15 +64,11 @@ const questionSchema = new Schema({
                 type: Date,
                 default: Date.now()
             },
-            answer: {
-                type: String,
-                require: true
-            },
-            upvote: {
+            upvotes: {
                 type: Array,
                 default: []
             },
-            downvote: {
+            downvotes: {
                 type: Array,
                 default: []
             },

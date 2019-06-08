@@ -3,7 +3,7 @@
 const Unit = require("../models/unit.model.js");
 const Course = require("../models/course.model.js");
 const User = require("../models/user.model.js");
-const jsonMessages = require("../assets/jsonMessages/db.js");
+const jsonMessages = require("../jsonMessages/db.js");
 
 
 // GET ALL UNITS
@@ -53,7 +53,7 @@ async function getDetails() {
 
     units.forEach(unit => {
         let matchingCourses = [];
-
+        
         unit.courses.forEach(unitCourse => {
             courses.forEach(course => {
                 if (course._id.equals(unitCourse)) {
