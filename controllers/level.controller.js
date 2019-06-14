@@ -49,19 +49,24 @@ async function createLevel(req, res) {
     const newLevel = new Level(req.body);
 
     try {
-        const search = await Level.findOne({ "level": _level });
-        const result = newLevel.save();
+        if (req.body) {
+            const search = await Level.findOne({ "level": _level });
+            const result = newLevel.save();
 
-        if (search) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newLevel });
+            if (search) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newLevel });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {
@@ -77,7 +82,7 @@ async function deleteLevelByID(req, res) {
     try {
         const search = await Level.findOne({ _id });
         const result = await Level.findByIdAndDelete({ _id });
-        
+
         if (search) {
             if (result) {
                 return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
@@ -102,8 +107,8 @@ async function updateLevelByID(req, res) {
 
     try {
         const search = await Level.findOne({ _id });
-        const result = await Level.findByIdAndUpdate(_id, req.body, {new: true});
-        
+        const result = await Level.findByIdAndUpdate(_id, req.body, { new: true });
+
         if (search) {
             if (result) {
                 return res.status(jsonMessages.success.successUpdate.status).send({ msg: jsonMessages.success.successUpdate, data: result });

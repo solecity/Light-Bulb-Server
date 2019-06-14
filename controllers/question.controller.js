@@ -57,7 +57,7 @@ async function getDetails() {
 
     questions.forEach(question => {
         let matchingTags = [];
-        
+
         courses.forEach(course => {
             if (course._id.equals(question.course)) {
                 question.course = course.course;
@@ -186,7 +186,7 @@ async function getQuestionsByUserID(req, res) {
         const search = await Question.find({ user: _id });
 
         if (search) {
-            return res.send({user: _id, question: search });
+            return res.send({ user: _id, question: search });
         }
         else {
             return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
@@ -210,7 +210,7 @@ async function getAnswersByQuestionID(req, res) {
                 return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
             }
             else {
-                return res.send({question: search, answers: search.answers });
+                return res.send({ question: search, answers: search.answers });
             }
         }
         else {
@@ -228,15 +228,18 @@ async function createQuestion(req, res) {
     let newQuestion = new Question(req.body);
 
     try {
-        const result = newQuestion.save();
+        if (req.body.title && req.body.user && req.body.course && req.body.unit && req.body.tags) {
+            const result = newQuestion.save();
 
-        console.log(result)
-
-        if (result) {
-            return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newQuestion });
+            if (result) {
+                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newQuestion });
+            }
+            else {
+                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            }
         }
         else {
-            return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {

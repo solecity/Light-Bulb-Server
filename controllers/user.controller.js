@@ -36,7 +36,7 @@ async function getUsersBasicInfo(req, res) {
                 _id: search[i]._id,
                 name: search[i].name,
                 type: search[i].type
-            })            
+            })
         }
 
         if (count === 0) {
@@ -78,19 +78,24 @@ async function createUser(req, res) {
     let newUser = new User(req.body);
 
     try {
-        const search = await User.findOne({ "email": _email });
-        const result = newUser.save();
+        if (req.body.name && req.body.email && req.body.password && req.body.type && req.body.profilePic && req.body.gameElements.xp && req.body.gameElements.level && req.body.gameElements.medals && req.body.gameElements.reputation) {
+            const search = await User.findOne({ "email": _email });
+            const result = newUser.save();
 
-        if (search) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newUser });
+            if (search) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newUser });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {

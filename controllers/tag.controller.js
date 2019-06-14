@@ -49,21 +49,24 @@ async function createTag(req, res) {
     const newTag = new Tag(req.body);
 
     try {
-        const search = await Tag.findOne({ "tag": _tag });
-        const result = newTag.save();
+        if (req.body) {
+            const search = await Tag.findOne({ "tag": _tag });
+            const result = newTag.save();
 
-        console.log(search)
-
-        if (search) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newTag });
+            if (search) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newTag });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {
@@ -79,7 +82,7 @@ async function deleteTagByID(req, res) {
     try {
         const search = await Tag.findOne({ _id });
         const result = await Tag.findByIdAndDelete({ _id });
-    
+
         if (search) {
             if (result) {
                 return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);

@@ -53,7 +53,7 @@ async function getDetails() {
 
     units.forEach(unit => {
         let matchingCourses = [];
-        
+
         unit.courses.forEach(unitCourse => {
             courses.forEach(course => {
                 if (course._id.equals(unitCourse)) {
@@ -172,19 +172,24 @@ async function createUnit(req, res) {
     let newUnit = new Unit(req.body);
 
     try {
-        const search = await Unit.findOne({ "unit": _unit });
-        const result = newUnit.save();
+        if (req.body.unit && req.body.teacher && req.body.year && req.body.courses) {
+            const search = await Unit.findOne({ "unit": _unit });
+            const result = newUnit.save();
 
-        if (search) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newUnit });
+            if (search) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newUnit });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {

@@ -53,7 +53,7 @@ async function getDetails() {
 
     courses.forEach(course => {
         let matchingUnits = [];
-        
+
         course.units.forEach(courseUnit => {
             units.forEach(unit => {
                 if (unit._id.equals(courseUnit)) {
@@ -174,20 +174,25 @@ async function createCourse(req, res) {
     let newCourse = new Course(req.body);
 
     try {
-        const searchCourse = await Course.findOne({ "course": _course });
-        const searchLevel = await Course.findOne({ "level": _level });
-        const result = newCourse.save();
+        if (req.body.course && req.body.level && req.body.coordinator && req.body.units) {
+            const searchCourse = await Course.findOne({ "course": _course });
+            const searchLevel = await Course.findOne({ "level": _level });
+            const result = newCourse.save();
 
-        if (searchCourse && searchLevel) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newCourse });
+            if (searchCourse && searchLevel) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newCourse });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {

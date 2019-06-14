@@ -49,19 +49,24 @@ async function createMedal(req, res) {
     const newMedal = new Medal(req.body);
 
     try {
-        const search = await Medal.findOne({ "medal": _medal });
-        const result = newMedal.save();
+        if (req.body) {
+            const search = await Medal.findOne({ "medal": _medal });
+            const result = newMedal.save();
 
-        if (search) {
-            return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
-        }
-        else {
-            if (result) {
-                return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newMedal });
+            if (search) {
+                return res.status(jsonMessages.error.duplicateData.status).send(jsonMessages.error.duplicateData);
             }
             else {
-                return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                if (result) {
+                    return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newMedal });
+                }
+                else {
+                    return res.status(jsonMessages.error.errorInsert.status).send(jsonMessages.error.errorInsert);
+                }
             }
+        }
+        else {
+            return res.status(jsonMessages.error.requiredData.status).send(jsonMessages.error.requiredData);
         }
     }
     catch (err) {
@@ -77,7 +82,7 @@ async function deleteMedalByID(req, res) {
     try {
         const search = await Medal.findOne({ _id });
         const result = await Medal.findByIdAndDelete({ _id });
-        
+
         if (search) {
             if (result) {
                 return res.status(jsonMessages.success.successDelete.status).send(jsonMessages.success.successDelete);
