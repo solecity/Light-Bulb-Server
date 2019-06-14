@@ -58,6 +58,7 @@ async function getDetails() {
             courses.forEach(course => {
                 if (course._id.equals(unitCourse)) {
                     let tempCourse = {
+                        id: course._id,
                         course: course.course,
                         level: course.level,
                         coordinator: course.coordinator
@@ -137,6 +138,7 @@ async function getDetailsByID(unit) {
         courses.forEach(course => {
             if (course._id.equals(unitCourse)) {
                 let tempCourse = {
+                    id: course._id,
                     course: course.course,
                     level: course.level,
                     coordinator: ""
@@ -215,6 +217,7 @@ async function deleteUnitByID(req, res) {
         return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
     }
 };
+
 
 // UPDATE UNIT BY ID
 async function updateUnitByID(req, res) {

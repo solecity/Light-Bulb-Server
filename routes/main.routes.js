@@ -29,6 +29,7 @@ router
     .get("/question/details", questionController.getQuestionsDetails)
     .get("/question/:id", questionController.getQuestionByID)
     .get("/question/details/:id", questionController.getQuestionDetailsByID)
+    .get("/question/user/:id", questionController.getQuestionsByUserID)
     .get("/question/answers/:id", questionController.getAnswersByQuestionID)
     .post("/question", questionController.createQuestion)
     .delete("/question/:id", questionController.deleteQuestionByID)

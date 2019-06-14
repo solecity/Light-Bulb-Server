@@ -45,10 +45,10 @@ const userSchema = new Schema({
         type: Array,
         default: []
     },
-    following: {
+    /*following: {
         type: Array,
         default: []
-    },
+    },*/
     /*
     notifications: [{
         _id: ObjectId,

@@ -166,8 +166,36 @@ async function getDetailsByID(question) {
         }
     })
 
+    question.answers.forEach(questionAnswer => {
+        users.forEach(user => {
+            if (user._id.equals(questionAnswer.user)) {
+                questionAnswer.user = user.name;
+            }
+        });
+    });
+
     return question;
 }
+
+
+// GET ALL QUESTIONS BY USER ID
+async function getQuestionsByUserID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await Question.find({ user: _id });
+
+        if (search) {
+            return res.send({user: _id, question: search });
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
 
 
 // GET ALL ANSWERS BY QUESTION ID
@@ -201,6 +229,8 @@ async function createQuestion(req, res) {
 
     try {
         const result = newQuestion.save();
+
+        console.log(result)
 
         if (result) {
             return res.status(jsonMessages.success.successInsert.status).send({ msg: jsonMessages.success.successInsert, data: newQuestion });
@@ -275,6 +305,7 @@ module.exports = {
     getQuestionsDetails,
     getQuestionByID,
     getQuestionDetailsByID,
+    getQuestionsByUserID,
     getAnswersByQuestionID,
     createQuestion,
     deleteQuestionByID,
