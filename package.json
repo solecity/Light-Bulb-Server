@@ -8,6 +8,7 @@
   "main": "server.js",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
     "express-validator": "^5.3.1",
     "express.js": "^1.0.0",
     "joy": "^0.1.1",
