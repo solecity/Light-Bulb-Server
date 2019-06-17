@@ -10,6 +10,7 @@ const questionController = require("../controllers/question.controller.js");
 const tagController = require("../controllers/tag.controller.js");
 const levelController = require("../controllers/level.controller.js");
 const medalController = require("../controllers/medal.controller.js");
+const authController = require("../controllers/auth.controller.js");
 
 var router = express.Router();
 
@@ -82,7 +83,13 @@ router
     .get("/medal/:id", medalController.getMedalByID)
     .post("/medal", medalController.createMedal)
     .delete("/medal/:id", medalController.deleteMedalByID);
-    //.put("/medal/:id", medalController.updateMedalByID);
+
+
+/* login */
+router
+    .get("/login", authController.login)
+    .get("/logout", authController.logout);
+
 
 
 module.exports = router;
