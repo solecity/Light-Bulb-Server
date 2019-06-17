@@ -4,9 +4,12 @@ const bcrypt = require("bcrypt");
 
 
 async function login(req, res) {
+    const { email, password } = req.body;
+
+    console.log("email")
     try {
-        const { email, password } = req.body;
         const user = await User.findOne({ email: email }).lean();
+
 
         if (!user) {
             return res.status(jsonMessages.user.email.status).send(jsonMessages.user.email);

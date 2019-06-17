@@ -17,7 +17,7 @@ var router = express.Router();
 
 /* login */
 router
-    .get("/login", authController.login)
+    .post("/login", authController.login)
     .get("/logout", authController.logout);
 
 
