@@ -1,7 +1,7 @@
 
 
 //const http = require("http");
-const express = require("express");
+const express = require("./node_modules/express");
 
 const userController = require("../controllers/user.controller.js");
 const courseController = require("../controllers/course.controller.js");
@@ -13,14 +13,15 @@ const medalController = require("../controllers/medal.controller.js");
 
 var router = express.Router();
 
+
 /* user */
 router
     .get("/user", userController.getUsers)
     .get("/user/basic", userController.getUsersBasicInfo)
     .get("/user/:id", userController.getUserByID)
     .post("/user", userController.createUser)
-    .delete("/user/:id", userController.deleteUserByID);
-//.put("/user/:id", userController.updateUserByID);
+    .delete("/user/:id", userController.deleteUserByID)
+    .put("/user/:id", userController.updateUserPhotoByID);
 
 
 /* question */

@@ -130,11 +130,38 @@ async function deleteUserByID(req, res) {
 };
 
 
+// UPDATE USER PHOTO BY ID
+async function updateUserPhotoByID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await User.findOne({ _id });
+        const result = await User.findByIdAndUpdate(_id, req.body);
+
+        if (search) {
+            if (result) {
+                return res.status(jsonMessages.success.successUpdate.status).send(jsonMessages.success.successUpdate);
+            }
+            else {
+                return res.status(jsonMessages.error.errorDelete.status).send(jsonMessages.error.errorDelete);
+            }
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getUsers,
     getUsersBasicInfo,
     getUserByID,
     createUser,
-    deleteUserByID
+    deleteUserByID,
+    updateUserPhotoByID
 };
