@@ -1,7 +1,7 @@
 
 
 //const http = require("http");
-const express = require("./node_modules/express");
+const express = require("../node_modules/express");
 
 const userController = require("../controllers/user.controller.js");
 const courseController = require("../controllers/course.controller.js");
