@@ -3,6 +3,7 @@
 //const http = require("http");
 const express = require("../node_modules/express");
 
+const authController = require("../controllers/auth.controller.js");
 const userController = require("../controllers/user.controller.js");
 const courseController = require("../controllers/course.controller.js");
 const unitController = require("../controllers/unit.controller.js");
@@ -10,9 +11,14 @@ const questionController = require("../controllers/question.controller.js");
 const tagController = require("../controllers/tag.controller.js");
 const levelController = require("../controllers/level.controller.js");
 const medalController = require("../controllers/medal.controller.js");
-const authController = require("../controllers/auth.controller.js");
 
 var router = express.Router();
+
+
+/* login */
+router
+    .get("/login", authController.login)
+    .get("/logout", authController.logout);
 
 
 /* user */
@@ -84,12 +90,6 @@ router
     .get("/medal/:id", medalController.getMedalByID)
     .post("/medal", medalController.createMedal)
     .delete("/medal/:id", medalController.deleteMedalByID);
-
-
-/* login */
-router
-    .get("/login", authController.login)
-    .get("/logout", authController.logout);
 
 
 
