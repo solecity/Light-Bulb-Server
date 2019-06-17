@@ -28,7 +28,7 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
-    req.logout();
+    // logout()
     return res.status(jsonMessages.user.logoutSuccess.status).send(jsonMessages.user.logoutSuccess);
 }
 
