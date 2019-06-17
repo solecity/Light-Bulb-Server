@@ -22,7 +22,8 @@ router
     .get("/user/:id", userController.getUserByID)
     .post("/user", userController.createUser)
     .delete("/user/:id", userController.deleteUserByID)
-    .put("/user/:id", userController.updateUserPhotoByID);
+    .put("/user/profilePic/:id", userController.updateUserPhotoByID)
+    .put("/user/gameElements/:id", userController.updateUserGameElementsByID);
 
 
 /* question */
