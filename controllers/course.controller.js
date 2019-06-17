@@ -256,7 +256,9 @@ async function updateCourseByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getCourses,
+    getCoursesDetails,
     getCourseByID,
+    getCourseDetailsByID,
     createCourse,
     deleteCourseByID,
     updateCourseByID

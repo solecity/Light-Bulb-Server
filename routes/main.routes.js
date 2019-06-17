@@ -35,7 +35,9 @@ router
 /* question */
 router
     .get("/question", questionController.getQuestions)
+    .get("/question/details", questionController.getQuestionsDetails)
     .get("/question/:id", questionController.getQuestionByID)
+    .get("/question/details/:id", questionController.getQuestionDetailsByID)
     .get("/question/user/:id", questionController.getQuestionsByUserID)
     .get("/question/answers/:id", questionController.getAnswersByQuestionID)
     .post("/question", questionController.createQuestion)
@@ -46,7 +48,9 @@ router
 /* course */
 router
     .get("/course", courseController.getCourses)
+    .get("/course/details", courseController.getCoursesDetails)
     .get("/course/:id", courseController.getCourseByID)
+    .get("/course/details/:id", courseController.getCourseDetailsByID)
     .post("/course", courseController.createCourse)
     .delete("/course/:id", courseController.deleteCourseByID)
     .put("/course/:id", courseController.updateCourseByID);
@@ -55,7 +59,9 @@ router
 /* unit */
 router
     .get("/unit", unitController.getUnits)
+    .get("/unit/details", unitController.getUnitsDetails)
     .get("/unit/:id", unitController.getUnitByID)
+    .get("/unit/details/:id", unitController.getUnitDetailsByID)
     .post("/unit", unitController.createUnit)
     .delete("/unit/:id", unitController.deleteUnitByID)
     .put("/unit/:id", unitController.updateUnitByID);
