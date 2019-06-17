@@ -8,27 +8,8 @@ const User = require("../models/user.model.js");
 const jsonMessages = require("../jsonMessages/db.js");
 
 
-// GET ALL QUESTIONS
+// GET ALL QUESTIONS WITH DETAIL INFO
 async function getQuestions(req, res) {
-    try {
-        const count = await Question.countDocuments();
-        const search = await Question.find();
-
-        if (count === 0) {
-            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
-        }
-        else {
-            return res.send(search);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET ALL QUESTIONS DETAIL INFO
-async function getQuestionsDetails(req, res) {
     try {
         const count = await Question.countDocuments();
 
@@ -90,28 +71,8 @@ async function getDetails() {
 }
 
 
-// GET QUESTION BY ID
+// GET QUESTION WITH DETAIL INFO BY ID
 async function getQuestionByID(req, res) {
-    const _id = req.params.id;
-
-    try {
-        const search = await Question.findOne({ _id });
-
-        if (search) {
-            return res.send(search);
-        }
-        else {
-            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET QUESTION DETAIL INFO BY ID
-async function getQuestionDetailsByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -305,9 +266,7 @@ async function updateQuestionByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getQuestions,
-    getQuestionsDetails,
     getQuestionByID,
-    getQuestionDetailsByID,
     getQuestionsByUserID,
     getAnswersByQuestionID,
     createQuestion,

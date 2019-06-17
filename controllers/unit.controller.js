@@ -6,27 +6,8 @@ const User = require("../models/user.model.js");
 const jsonMessages = require("../jsonMessages/db.js");
 
 
-// GET ALL UNITS
+// GET ALL UNITS WITH DETAIL INFO
 async function getUnits(req, res) {
-    try {
-        const count = await Unit.countDocuments();
-        const search = await Unit.find();
-
-        if (count === 0) {
-            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
-        }
-        else {
-            return res.send(search);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET ALL UNITS DETAIL INFO
-async function getUnitsDetails(req, res) {
     try {
         const count = await Unit.countDocuments();
 
@@ -45,7 +26,7 @@ async function getUnitsDetails(req, res) {
 };
 
 
-// GET DETAILS BY UNIT OBJECT ID
+// GET UNIT DETAILS BY OBJECT ID
 async function getDetails() {
     const units = await Unit.find().lean();
     const courses = await Course.find().lean();
@@ -87,28 +68,8 @@ async function getDetails() {
 }
 
 
-// GET UNIT BY ID
+// GET UNIT WITH DETAIL INFO BY ID
 async function getUnitByID(req, res) {
-    const _id = req.params.id;
-
-    try {
-        const search = await Unit.findOne({ _id });
-
-        if (search) {
-            return res.send(search);
-        }
-        else {
-            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
-        }
-    }
-    catch (err) {
-        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
-    }
-};
-
-
-// GET UNIT DETAIL INFO BY ID
-async function getUnitDetailsByID(req, res) {
     const _id = req.params.id;
 
     try {
@@ -253,9 +214,7 @@ async function updateUnitByID(req, res) {
 // EXPORT ALL FUNCTIONS
 module.exports = {
     getUnits,
-    getUnitsDetails,
     getUnitByID,
-    getUnitDetailsByID,
     createUnit,
     deleteUnitByID,
     updateUnitByID
