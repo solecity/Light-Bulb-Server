@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 async function login(req, res) {
     const { email, password } = req.body;
 
-    console.log("email")
     try {
         const user = await User.findOne({ email: email }).lean();
 
@@ -21,7 +20,7 @@ async function login(req, res) {
             return res.status(jsonMessages.user.password.status).send(jsonMessages.user.password);
         }
 
-        res.status(jsonMessages.user.signinSucces.status).send({ msg: jsonMessages.user.signinSucces, user: user });
+        res.status(jsonMessages.user.signinSucces.status).send({ msg: jsonMessages.user.signinSucces, user: user.name });
     }
     catch (err) {
         return res.status(jsonMessages.user.error.status).send(jsonMessages.user.error);
