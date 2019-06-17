@@ -6,8 +6,27 @@ const User = require("../models/user.model.js");
 const jsonMessages = require("../jsonMessages/db.js");
 
 
-// GET ALL COURSES WITH DETAIL INFO
+// GET ALL COURSES
 async function getCourses(req, res) {
+    try {
+        const count = await Course.countDocuments();
+        const search = await Course.find();
+
+        if (count === 0) {
+            return res.status(jsonMessages.notFound.noRecords.status).send(jsonMessages.notFound.noRecords);
+        }
+        else {
+            return res.send(search);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET ALL COURSES DETAIL INFO
+async function getCoursesDetails(req, res) {
     try {
         const count = await Course.countDocuments();
 
@@ -68,8 +87,28 @@ async function getDetails() {
 }
 
 
-// GET COURSE WITH DETAIL INFO BY ID
+// GET COURSE BY ID
 async function getCourseByID(req, res) {
+    const _id = req.params.id;
+
+    try {
+        const search = await Course.findOne({ _id });
+
+        if (search) {
+            return res.send(search);
+        }
+        else {
+            return res.status(jsonMessages.notFound.noRecordsId.status).send(jsonMessages.notFound.noRecordsId);
+        }
+    }
+    catch (err) {
+        return res.status(jsonMessages.error.dbError.status).send(jsonMessages.error.dbError);
+    }
+};
+
+
+// GET COURSE WITH DETAIL INFO BY ID
+async function getCourseDetailsByID(req, res) {
     const _id = req.params.id;
 
     try {
