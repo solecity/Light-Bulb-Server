@@ -15,7 +15,7 @@
     "joy": "^0.1.1",
     "loader": "^2.1.1",
     "loader.js": "^4.7.0",
-    "mongoose": "^5.5.4",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.19.1",
     "routes.js": "0.0.1"
   },
